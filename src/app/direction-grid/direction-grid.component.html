@@ -1,0 +1,17 @@
+<div (click)="chooseDirection($event)">
+  <div class="button north-west" [ngClass]="{selected: direction === 'northwest'}"> <i class="fas fa-chevron-circle-right fa-2x" data-direction="northwest"></i> </div>
+  <div class="button" [ngClass]="{selected: direction === 'north'}"> <i class="fas fa-chevron-circle-up fa-2x" data-direction="north"></i> </div>
+  <div class="button north-east" [ngClass]="{selected: direction === 'northeast'}"> <i class="fas fa-chevron-circle-right fa-2x" data-direction="northeast"></i> </div>
+</div>
+
+<div (click)="chooseDirection($event)">
+  <div class="button" [ngClass]="{selected: direction === 'west'}"> <i class="fas fa-chevron-circle-left fa-2x" data-direction="west"></i> </div>
+  <div class="button"> <i class="far fa-dot-circle fa-2x"></i> </div>
+  <div class="button" [ngClass]="{selected: direction === 'east'}"> <i class="fas fa-chevron-circle-right fa-2x" data-direction="east"></i> </div>
+</div>
+
+<div (click)="chooseDirection($event)">
+  <div class="button south-west" [ngClass]="{selected: direction === 'southwest'}"> <i class="fas fa-chevron-circle-right fa-2x" data-direction="southwest"></i> </div>
+  <div class="button" [ngClass]="{selected: direction === 'south'}"> <i class="fas fa-chevron-circle-down fa-2x" data-direction="south"></i> </div>
+  <div class="button south-east" [ngClass]="{selected: direction === 'southeast'}"> <i class="fas fa-chevron-circle-right fa-2x" data-direction="southeast"></i> </div>
+</div>

@@ -1,3 +1,7 @@
-<p>
-  grid works!
-</p>
+<!-- <div class="grid-row" *ngFor="let line of rows; let i=index;">
+  <div class="grid-col" *ngFor="let cell of cols, let j=index;">{{grid[i][j]}}</div>
+</div> -->
+
+<div class="grid-row" *ngFor="let line of gameGrid">
+  <div class="grid-col" *ngFor="let column of line"> {{column.label}} </div>
+</div>

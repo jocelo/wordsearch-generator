@@ -1,3 +1,36 @@
-<p>
-  tools works!
-</p>
+<div>
+  <button class="btn btn-primary btn-small">Load JSON</button>
+</div>
+
+<hr />
+
+<div class="row">
+  <div class="col-md-6">
+    <app-direction-grid></app-direction-grid>
+  </div>
+  <div class="col-md-6 btn-group-vertical">
+    <button class="btn btn-light">Random Grid</button>
+    <button class="btn btn-light">Clean Grid</button>
+    <button class="btn btn-light">Save Grid</button>
+  </div>
+</div>
+
+<hr />
+
+<div>
+  <input type="input" name="new-word" #newWord> <button type="button" (click)="addWord()">add</button>
+  <div class="words-container">
+    <button *ngFor="let word of words" 
+      type="button" 
+      class="btn btn-secondary badge-custom" 
+      [style.background-color]="getHslColor()" 
+      (click)="selectWord($event)" >
+      {{word}} <span class="badge"> <i class="far fa-times-circle fa-2x"></i> </span>
+    </button>
+  </div>
+</div>
+
+<hr />
+
+<div>
+</div>
