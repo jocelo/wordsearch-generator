@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { WordService } from '../shared/services/word.service';
+import { ToolsService } from '../shared/services/tools.service';
 
 @Component({
   selector: 'app-tools',

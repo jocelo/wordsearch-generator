@@ -18,7 +18,7 @@
 <hr />
 
 <div>
-  <input type="input" name="new-word" #newWord> <button type="button" (click)="onAddWord()">add</button>
+  <input type="input" name="new-word" #newWord> <button type="button" (click)="onAddWord()">add Word</button>
   <div class="words-container">
     <button *ngFor="let word of wordsList" 
       type="button" 
@@ -26,7 +26,7 @@
       [style.background-color]="word.bgColor" 
       [style.color]="word.fontColor"
       (click)="selectWord($event)" >
-      {{word.label}} <span class="badge"> <i class="far fa-times-circle fa-2x"></i> </span>
+      {{word.label}} <span class="badge"> <i *ngIf="word.used" class="fas fa-eraser fa-2x"></i> </span>
     </button>
   </div>
 </div>

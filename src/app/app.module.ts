@@ -6,6 +6,7 @@ import { GridComponent } from './grid/grid.component';
 import { ToolsComponent } from './tools/tools.component';
 import { DirectionGridComponent } from './direction-grid/direction-grid.component';
 import { WordService } from './shared/services/word.service';
+import { ToolsService } from './shared/services/tools.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { WordService } from './shared/services/word.service';
   imports: [
     BrowserModule
   ],
-  providers: [WordService],
+  providers: [WordService, ToolsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

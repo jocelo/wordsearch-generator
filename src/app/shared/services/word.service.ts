@@ -3,37 +3,57 @@ export class WordService {
 	backup: object[] = [];
 	words: object[] = [];
 	colorHue: number = 0;
+	fontColors: object;
 
 	constructor() {
+		this.fontColors = {
+			0: 'white',
+			30: 'white',
+			60: 'black',
+			90: 'black',
+			120: 'black',
+			150: 'black',
+			180: 'black',
+			210: 'white',
+			240: 'white',
+			270: 'white',
+			300: 'white',
+			330: 'white',
+			360: 'white',
+		};
 		this.words.push({
       label: 'nanis',
       bgColor: this.getHslColor(this.colorHue),
-      fontColor: 'black',
-      active: false
+      fontColor: this.getFontColor(this.colorHue),
+			active: false,
+			used: true
     });
     this.colorHue += 30;
     this.words.push({
       label: 'maia',
       bgColor: this.getHslColor(this.colorHue),
-      fontColor: 'black',
-      active: false
+      fontColor: this.getFontColor(this.colorHue),
+			active: false,
+			used: true
     });
     this.colorHue += 30;
     this.words.push({
       label: 'paula',
       bgColor: this.getHslColor(this.colorHue),
-      fontColor: 'black',
-      active: false
+      fontColor: this.getFontColor(this.colorHue),
+			active: false,
+			used: false
     });
     this.colorHue += 30;
 	}
 
 	addWord(newWord: string) {
 		this.words.push({
-      label: newWord + this.colorHue,
+      label: newWord,
       bgColor: this.getHslColor(this.colorHue),
-      fontColor: this.colorHue > 200 ? 'white' : 'black',
-      active: false
+      fontColor: this.getFontColor(this.colorHue),
+			active: false,
+			used: false
     });
     this.colorHue += 30;
 	}
@@ -63,6 +83,13 @@ export class WordService {
 
   getHslColor(colorHue: number) {
     return 'hsl('+colorHue+', 100%, 50%)';
+	}
+
+	getFontColor(colorCode: number) {
+		if (colorCode > 360) {
+			return this.getFontColor(colorCode-360);
+		}
+		return this.fontColors[colorCode];
 	}
 	
 	getWords() {

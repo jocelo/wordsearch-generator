@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ToolsService } from '../shared/services/tools.service';
 
 @Component({
   selector: 'app-direction-grid',
@@ -10,7 +11,7 @@ export class DirectionGridComponent implements OnInit {
   directions: object[];
   direction: string;
 
-  constructor() { }
+  constructor(private toolSrv: ToolsService) { }
 
   ngOnInit() {
     this.direction = 'east';
@@ -20,6 +21,8 @@ export class DirectionGridComponent implements OnInit {
   chooseDirection(event: any) {
     if (event.target.nodeName === 'I') {
       this.direction = event.target.dataset.direction;
+      console.log('this.direction', this.direction)
+      this.toolSrv.setDirection(this.direction);
     }
   }
 }
