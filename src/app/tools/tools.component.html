@@ -6,7 +6,7 @@
 
 <div class="row">
   <div class="col-md-6">
-    <app-direction-grid></app-direction-grid>
+    <app-direction-grid [wordSelected]="wordSelected"></app-direction-grid>
   </div>
   <div class="col-md-6 btn-group-vertical">
     <button class="btn btn-light">Random Grid</button>
@@ -18,14 +18,15 @@
 <hr />
 
 <div>
-  <input type="input" name="new-word" #newWord> <button type="button" (click)="addWord()">add</button>
+  <input type="input" name="new-word" #newWord> <button type="button" (click)="onAddWord()">add</button>
   <div class="words-container">
-    <button *ngFor="let word of words" 
+    <button *ngFor="let word of wordsList" 
       type="button" 
       class="btn btn-secondary badge-custom" 
-      [style.background-color]="getHslColor()" 
+      [style.background-color]="word.bgColor" 
+      [style.color]="word.fontColor"
       (click)="selectWord($event)" >
-      {{word}} <span class="badge"> <i class="far fa-times-circle fa-2x"></i> </span>
+      {{word.label}} <span class="badge"> <i class="far fa-times-circle fa-2x"></i> </span>
     </button>
   </div>
 </div>

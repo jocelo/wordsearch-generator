@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { WordService } from '../shared/services/word.service';
 
 @Component({
   selector: 'app-tools',
@@ -6,49 +7,33 @@ import { Component, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./tools.component.css']
 })
 export class ToolsComponent implements OnInit {
-  words: object[] = [];
-  @ViewChild('newWord') newWord: string;
-  colorHue: number = 0;
+  wordsList: object[] = [];
+  @ViewChild('newWord') newWord: ElementRef;
+  
+  previousSelected: any;
+  wordSelected: string;
 
-  constructor() { }
+  constructor(private wordSrv: WordService) { }
 
   ngOnInit() {
-    /*
-    this.words.push({
-      label: 'nanis',
-      color: this.colorHue,
-      active: false
-    });
-    this.colorHue += 30;
-    this.words.push({
-      label: 'maia',
-      color: this.colorHue,
-      active: false
-    });
-    this.colorHue += 30;
-    this.words.push({
-      label: 'paula',
-      color: this.colorHue,
-      active: false
-    });
-    this.colorHue += 30;
-    */
+    this.wordsList = this.wordSrv.getWords();
   }
 
-  addWord() {
-    console.log('adding new word:', this.newWord);
-
-    // this.words.push('nanis');
-    //this.colorHue = 0;
-  }
-
-  getHslColor() {
-    
-    return 'hsl('+this.colorHue+', 100%, 50%)';
+  onAddWord() {
+    const newWord = String(this.newWord.nativeElement.value).trim();
+    if (newWord) {
+      this.wordSrv.addWord(newWord);
+    }
   }
 
   selectWord(whatIsThis: any) {
-    console.log('console', whatIsThis);
+    if (this.previousSelected) {
+      this.previousSelected.classList.remove('selected');
+    }
+
+    whatIsThis.target.classList.add('selected');
+    this.previousSelected = whatIsThis.target;
+    this.wordSrv.setSelected(whatIsThis.target.innerText);
   }
 
 }

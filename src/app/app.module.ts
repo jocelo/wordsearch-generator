@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { GridComponent } from './grid/grid.component';
 import { ToolsComponent } from './tools/tools.component';
 import { DirectionGridComponent } from './direction-grid/direction-grid.component';
+import { WordService } from './shared/services/word.service';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import { DirectionGridComponent } from './direction-grid/direction-grid.componen
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [WordService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

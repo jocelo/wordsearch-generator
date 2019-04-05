@@ -2,6 +2,6 @@
   <div class="grid-col" *ngFor="let cell of cols, let j=index;">{{grid[i][j]}}</div>
 </div> -->
 
-<div class="grid-row" *ngFor="let line of gameGrid">
-  <div class="grid-col" *ngFor="let column of line"> {{column.label}} </div>
+<div class="grid-row" *ngFor="let line of gameGrid; let i = index;">
+  <div class="grid-col" *ngFor="let column of line; let j = index;" (click)="onCellClicked(i, j)" [ngClass]="column.classes">{{column.label}} </div>
 </div>

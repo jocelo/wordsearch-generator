@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-direction-grid',
@@ -6,6 +6,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./direction-grid.component.css']
 })
 export class DirectionGridComponent implements OnInit {
+  @Input() wordSelected: string;
   directions: object[];
   direction: string;
 
@@ -13,9 +14,10 @@ export class DirectionGridComponent implements OnInit {
 
   ngOnInit() {
     this.direction = 'east';
+    console.log('wird sekected us:', this.wordSelected);
   }
 
-  chooseDirection(event) {
+  chooseDirection(event: any) {
     if (event.target.nodeName === 'I') {
       this.direction = event.target.dataset.direction;
     }
