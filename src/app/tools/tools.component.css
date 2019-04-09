@@ -7,3 +7,7 @@
 .badge-custom.selected {
 	box-shadow: 5px 5px 5px gray;
 }
+
+button {
+	margin-left: 10px;
+}

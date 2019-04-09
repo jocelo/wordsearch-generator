@@ -4,6 +4,6 @@ export class WordModel {
 		public bgColor: string,
 		public fontColor: string,
 		public active: boolean,
-		public used: boolean
-	) {}
+		public used: boolean,
+		public dirty: boolean ) {}
 }

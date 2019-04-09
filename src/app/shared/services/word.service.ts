@@ -1,11 +1,18 @@
+import { WordModel } from "../models/word.model";
+import { ɵConsole, Injectable } from "@angular/core";
+import { NotificationsService } from "./notifications.service";
+
+@Injectable()
 export class WordService {
 	selectedWord: string;
+	selectedIdx: number;
 	backup: object[] = [];
-	words: object[] = [];
+	words: WordModel[] = [];
 	colorHue: number = 0;
 	fontColors: object;
+	grid: string[][];
 
-	constructor() {
+	constructor(private notificationSrv: NotificationsService) {
 		this.fontColors = {
 			0: 'white',
 			30: 'white',
@@ -19,52 +26,67 @@ export class WordService {
 			270: 'white',
 			300: 'white',
 			330: 'white',
-			360: 'white',
+			360: 'white'
 		};
-		this.words.push({
-      label: 'nanis',
-      bgColor: this.getHslColor(this.colorHue),
-      fontColor: this.getFontColor(this.colorHue),
-			active: false,
-			used: true
-    });
+		this.words.push(new WordModel(
+      'nanis',
+      this.getHslColor(this.colorHue),
+      this.getFontColor(this.colorHue),
+			false,
+			false, 
+			false
+		));
+		this.colorHue += 30;
+		/*
+    this.words.push(new WordModel(
+      'maia',
+      this.getHslColor(this.colorHue),
+      this.getFontColor(this.colorHue),
+			false,
+			false,
+			false
+    ));
     this.colorHue += 30;
-    this.words.push({
-      label: 'maia',
-      bgColor: this.getHslColor(this.colorHue),
-      fontColor: this.getFontColor(this.colorHue),
-			active: false,
-			used: true
-    });
-    this.colorHue += 30;
-    this.words.push({
-      label: 'paula',
-      bgColor: this.getHslColor(this.colorHue),
-      fontColor: this.getFontColor(this.colorHue),
-			active: false,
-			used: false
-    });
-    this.colorHue += 30;
+    this.words.push(new WordModel(
+      'paula',
+      this.getHslColor(this.colorHue),
+      this.getFontColor(this.colorHue),
+			false,
+			false,
+			false
+    ));
+		this.colorHue += 30;
+		*/
 	}
 
 	addWord(newWord: string) {
-		this.words.push({
-      label: newWord,
-      bgColor: this.getHslColor(this.colorHue),
-      fontColor: this.getFontColor(this.colorHue),
-			active: false,
-			used: false
-    });
+		this.words.push(new WordModel(
+      newWord,
+      this.getHslColor(this.colorHue),
+      this.getFontColor(this.colorHue),
+			false,
+			false,
+			false
+		));
     this.colorHue += 30;
 	}
 
-	setSelected(word: string): void {
+	setSelected(word: string, idx: number): void {
 		this.selectedWord = word;
+		this.selectedIdx = idx;
 		this.backup = [];
 	}
 
 	getSelected(): string {
 		return this.selectedWord;
+	}
+
+	getWholeSelected() {
+		return this.words[this.selectedIdx];
+	}
+
+	markAsUsed() {
+		this.words[this.selectedIdx]['used'] = true;
 	}
 
 	savePreviousState(row:number, col:number, label:string) {
@@ -82,7 +104,7 @@ export class WordService {
 	}
 
   getHslColor(colorHue: number) {
-    return 'hsl('+colorHue+', 100%, 50%)';
+    return 'hsla('+colorHue+', 100%, 50%, 0.8)';
 	}
 
 	getFontColor(colorCode: number) {
@@ -94,5 +116,29 @@ export class WordService {
 	
 	getWords() {
 		return this.words;
+	}
+
+	generateStructure() {
+		let allData = this.grid.map((row,index)=>{
+			let caca = row.map(col=>{
+				return col['label'];
+			}).join('')
+			return caca;
+		});
+
+		const game = {
+			words: this.words.map(word=>word.label),
+			game: allData
+		};
+
+		return game;
+	}
+
+	setGrid(grid: any){
+		this.grid = grid;
+	}
+
+	allWordsUsed() {
+		return this.words.filter(item=>!item.used).length === 0;
 	}
 }

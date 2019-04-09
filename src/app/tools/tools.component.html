@@ -1,10 +1,31 @@
-<div>
-  <button class="btn btn-primary btn-small">Load JSON</button>
+<div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-danger" role="alert" *ngIf="gameAlertMessage!==''">
+        {{gameAlertMessage}}
+      </div>
+    </div>
+    <div class="col-md-12">
+      <label for="save-name">Name of grid:</label>
+      <input type="text" class="form-control" name="gameName" #gameName>
+    </div>
+  </div>
+
+<hr />
+
+<div class="row">
+  <div class="col-md-12">
+    <h4>Tools:</h4>
+  </div>
 </div>
 
 <hr />
 
 <div class="row">
+  <div class="col-md-12">
+    <div class="alert alert-danger" role="alert" *ngIf="toolsAlertMessage!==''">
+      {{toolsAlertMessage}}
+    </div>
+  </div>
   <div class="col-md-6">
     <app-direction-grid [wordSelected]="wordSelected"></app-direction-grid>
   </div>
@@ -17,21 +38,48 @@
 
 <hr />
 
-<div>
-  <input type="input" name="new-word" #newWord> <button type="button" (click)="onAddWord()">add Word</button>
-  <div class="words-container">
-    <button *ngFor="let word of wordsList" 
-      type="button" 
-      class="btn btn-secondary badge-custom" 
-      [style.background-color]="word.bgColor" 
-      [style.color]="word.fontColor"
-      (click)="selectWord($event)" >
-      {{word.label}} <span class="badge"> <i *ngIf="word.used" class="fas fa-eraser fa-2x"></i> </span>
-    </button>
+<div class="row">
+  <div class="col-md-12">
+    <h4>Word:</h4>
+  </div>
+  <div class="col-md-12">
+    <div class="alert alert-danger" role="alert" *ngIf="wordsAlertMessage!==''">
+      {{wordsAlertMessage}}
+    </div>
+  </div>
+  <div class="col-md-12">
+    <input 
+      type="input" 
+      name="new-word"
+      (keyup)="onKeyUp($event)"
+      #newWord> 
+    <button type="button" class="btn btn-secondary" (click)="onAddWord()">+ add</button>
+  </div>
+  <div class="col-md-12">
+    <div class="words-container">
+      <button *ngFor="let word of wordsList; let i=index;" 
+        type="button" 
+        class="btn btn-dark badge-custom" 
+        [ngClass]="{selected: i === selectedW}"
+        [style.background-color]="word.used ? word.bgColor : ''" 
+        [style.color]="word.used ? word.fontColor : ''"
+        (click)="selectWord(word, i)" >
+        {{word.label}} <span class="badge"> <i *ngIf="word.used" class="fas fa-eraser"></i> </span>
+      </button>
+    </div>
   </div>
 </div>
 
 <hr />
 
-<div>
+<div class="row">
+  <div class="col-md-12">
+    <h4>Load + Save:</h4>
+  </div>
+  <div class="col-md-12">
+    <button type="button" class="btn btn-secondary" (click)="onGenerate()">Generate structure</button>
+  </div>
+  <div class="col-md-12">
+    <textarea name="dumpArea" id="" rows="5" class="form-control" [(ngModel)]="gameString"></textarea>
+  </div>
 </div>

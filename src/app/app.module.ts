@@ -7,6 +7,7 @@ import { ToolsComponent } from './tools/tools.component';
 import { DirectionGridComponent } from './direction-grid/direction-grid.component';
 import { WordService } from './shared/services/word.service';
 import { ToolsService } from './shared/services/tools.service';
+import { NotificationsService } from './shared/services/notifications.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { ToolsService } from './shared/services/tools.service';
   imports: [
     BrowserModule
   ],
-  providers: [WordService, ToolsService],
+  providers: [WordService, ToolsService, NotificationsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

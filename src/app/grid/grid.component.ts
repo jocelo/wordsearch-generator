@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WordService } from '../shared/services/word.service';
 import { ToolsService } from '../shared/services/tools.service';
+import { NotificationsService } from '../shared/services/notifications.service';
 
 @Component({
   selector: 'app-grid',
@@ -13,7 +14,10 @@ export class GridComponent implements OnInit {
   gameGrid: any = [];
   wordsGrid: string[];
 
-  constructor(private wordSrv: WordService, private toolSrv: ToolsService) { }
+  constructor(
+    private wordSrv: WordService, 
+    private toolSrv: ToolsService,
+    private notificationsSrv: NotificationsService) { }
 
   ngOnInit() {
     for (let i=0 ; i<this.rows.length ; i++ ) {
@@ -33,41 +37,93 @@ export class GridComponent implements OnInit {
 
   onCellClicked(sRow: number, sCol:number) {
     const word = this.wordSrv.getSelected();
+    const caca = this.wordSrv.getWholeSelected();
     const direction = this.toolSrv.getDirection();
+
+    if (!direction) {
+      this.notificationsSrv.direction.next('You need to select a direction.');
+      return;
+    }
+
+    if (!word) {
+      this.notificationsSrv.word.next('You need to select a word from the list.');
+      return;
+    }
+
+    if (caca['used']) {
+      //this.notificationsSrv.word.next('Word alredy used.');
+      //return;
+    }
 
     if (word) {
       const prevState = this.wordSrv.getPreviousState();
       if (prevState) {
         prevState.forEach((item)=>{
-          this.gameGrid[item.row][item.col] = item.label;
+          this.gameGrid[item['row']][item['col']] = item['label'];
         });
       }
-
       const wordForSplit = word.split('');
+      let nextCoord = {
+        row: sRow,
+        col: sCol
+      };
 
-      // neet to know the direction of the positioning
-      
-      console.log('we are going where?', direction);
-      // GOING EAST... 
-      if ( direction === 'east' ) {
-        for (let col=sCol ; col<(sCol+word.length-1) ; col++) {
-          this.wordSrv.savePreviousState(sRow, col, this.gameGrid[sRow][col]);
-          this.gameGrid[sRow][col] = {
-            label: wordForSplit.shift(),
-            classes: ['redbg']
-          }
+      for (let i = 0 ; i < word.length ; i++ ) {
+        this.wordSrv.savePreviousState(nextCoord.row, nextCoord.col, this.gameGrid[nextCoord.row][nextCoord.col]);
+        this.gameGrid[nextCoord.row][nextCoord.col] = {
+          label: wordForSplit.shift(),
+          classes: [''],
+          shit: caca['bgColor']
         }
-      } else if ( direction === 'south' ) {
-        for (let row=sRow ; row<(sRow+word.length-1) ; row++) {
-          this.wordSrv.savePreviousState(row, sCol, this.gameGrid[row][sCol]);
-          this.gameGrid[row][sCol] = {
-            label: wordForSplit.shift(),
-            classes: ['redbg']
-          }
-        }
+        nextCoord = this.getNextCoord(nextCoord, direction);
       }
-      
     } // if a word is selected 
 
+    this.wordSrv.setGrid(this.gameGrid);
+
+    this.wordSrv.markAsUsed();
+
   } // onCellClicked
+
+  private getNextCoord(coord: {row: number, col: number}, direction: string): {row: number, col:number}{
+    let nextRow: number = coord.row,
+      nextCol: number = coord.col;
+    switch(direction) {
+      case 'north':
+        nextRow--;
+        break;
+      case 'northeast':
+        nextRow--;
+        nextCol++;
+        break;
+      case 'east':
+        nextCol++;
+        break;
+      case 'southeast':
+        nextRow++;
+        nextCol++;
+        break;
+      case 'south':
+        nextRow++;
+        break;
+      case 'southwest':
+        nextRow++;
+        nextCol--;
+        break;
+      case 'west':
+        nextCol--;
+        break;
+      case 'northwest':
+        nextRow--;
+        nextCol--;
+        break;
+      default:
+        break;
+    }
+
+    return {
+      row: nextRow,
+      col: nextCol
+    }
+  }
 }
