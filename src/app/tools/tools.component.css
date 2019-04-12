@@ -1,6 +1,6 @@
 .badge-custom {
 	padding: 5px;
-	margin: 5px;
+	margin: 5px 0;
 	font-size: 15px;
 }
 
@@ -8,6 +8,10 @@
 	box-shadow: 5px 5px 5px gray;
 }
 
-button {
-	margin-left: 10px;
+.btn-border {
+	border: 1px solid black;
+}
+
+.btn-group {
+	margin: 5px;
 }

@@ -1,0 +1,171 @@
+<div class="row">
+  <div class="col-md-2">
+    <h3>Categories</h3>
+  </div>
+  <div class="col-md-9">
+    <div class="alert alert-success" role="alert" *ngIf="showSeasonAlert"> {{alertMsg}} </div>
+    <div class="btn-toolbar">
+      <button *ngFor="let seas of seasons; let idx = index" type="button" class="btn btn-light btn-season" [ngClass]="{active: selectedSeason == idx}" (click)="onSelectSeason(idx)">{{seas.title}}</button>
+      <button type="button" class="btn btn-light btn-add" (click)="addNewSeason()"><i class="fas fa-plus"></i> New Season</button>
+    </div>
+  </div>
+</div>
+
+<form (ngSubmit)="onSaveNewSeason(catForm)" #catForm="ngForm">
+<div class="row justify-content-center" *ngIf="showAddSeason">
+  <div class="col-md-6 custom-bg">
+    <div class="form-group">
+      <input type="text" 
+        class="form-control" 
+        name="catTitle" 
+        placeholder="Season Title"
+        ngModel>
+    </div>
+    <div class="row">
+      <div class="col">
+        <input type="text" 
+          class="form-control" 
+          name="catEn" 
+          value="englisht title"
+          placeholder="English title"
+          ngModel>
+      </div>
+      <div class="col">
+        <input type="text" 
+          class="form-control" 
+          name="catEs" 
+          value="spanisht title"
+          placeholder="Spanish Title"
+          ngModel>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-link" (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<hr>
+
+<div class="row" *ngIf="selectedSeason != -1">
+  <div class="col-md-2">
+    <h3>Games</h3>
+  </div>
+  <div class="col-md-9">
+    <div class="alert alert-success" role="alert" *ngIf="showEpisodeAlert"> {{alertMsg}} </div>
+    <div class="btn-toolbar">
+      <button type="button" *ngFor="let epi of episodes; let idx = index;" class="btn btn-light btn-episode" [ngClass]="{active: selectedEpisode == idx}" (click)="onSelectEpisode(idx)" (doubleclick)="onEditEpisode(idx)">{{epi.title}}</button>
+      <button type="button" class="btn btn-light btn-add" (click)="addNewEpisode()"><i class="fas fa-plus"></i> New Episode</button>
+    </div>
+  </div>
+</div>
+
+<form (ngSubmit)="onSaveNewEpisode(gameForm)" #gameForm="ngForm">
+    <div class="row justify-content-center" *ngIf="showAddEpisode">
+      <div class="col-md-6 custom-bg">
+        <div class="row">
+          <div class="col">
+            <input type="text" 
+              class="form-control" 
+              name="epiTitle" 
+              placeholder="Episode Title"
+              ngModel>
+          </div>
+          <div class="col">
+              <input type="text" 
+              class="form-control" 
+              name="epiDifficulty"
+              placeholder="Normal"
+              disabled="disabled"
+              ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="text" 
+              class="form-control" 
+              name="epiEn" 
+              value="englisht title"
+              placeholder="English title"
+              ngModel>
+          </div>
+          <div class="col">
+            <input type="text" 
+              class="form-control" 
+              name="epiEs" 
+              value="spanisht title"
+              placeholder="Spanish Title"
+              ngModel>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <button type="submit" class="btn btn-success">Save</button>
+            <button type="button" class="btn btn-link" (click)="onCancel()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</form>
+
+<hr>
+
+<div class="row" *ngIf="selectedEpisode != -1">
+  <div class="col-md-2">
+    <h3>Words</h3>
+  </div>
+  <div class="col-md-9">
+    <h5>{{activeEpisode.en}} / {{activeEpisode.es}}</h5>
+    <div class="alert alert-success" role="alert" *ngIf="showWordAlert"> {{alertMsg}} </div>
+    <div class="btn-group" role="group" *ngFor="let englishWord of activeWordList.en; let idx = index;">
+      <button type="button" class="btn btn-dark">{{englishWord}}</button>
+      <button type="button" class="btn btn-light btn-border">{{activeWordList.es[idx]}}</button>
+    </div>
+
+    <div class="btn-toolbar">
+      <button type="button" class="btn btn-light btn-add" (click)="addNewWord()"><i class="fas fa-plus"></i> New Word</button>
+    </div>
+
+  </div>
+</div>
+
+<form (ngSubmit)="onSaveNewWord(wordForm)" #wordForm="ngForm">
+    <div class="row justify-content-center" *ngIf="showAddWord">
+      <div class="col-md-6 custom-bg">
+        <div class="row">
+          <div class="col">
+            <input type="text" 
+              class="form-control" 
+              name="wordEn" 
+              placeholder="English Word"
+              #enWordInput
+              ngModel>
+          </div>
+          <div class="col">
+              <input type="text" 
+              class="form-control" 
+              name="wordEs"
+              placeholder="Spanish Word"
+              ngModel>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <button type="submit" class="btn btn-success">Save</button>
+            <button type="button" class="btn btn-link" (click)="onCancel()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</form>
+
+<hr />
+
+<button type="button" class="btn btn-primary" (click)="onOpenEpisode()" [disabled]="selectedEpisode === -1">Edit episode</button>

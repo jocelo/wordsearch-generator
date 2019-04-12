@@ -28,6 +28,7 @@ export class WordService {
 			330: 'white',
 			360: 'white'
 		};
+		/*
 		this.words.push(new WordModel(
       'nanis',
       this.getHslColor(this.colorHue),
@@ -37,6 +38,7 @@ export class WordService {
 			false
 		));
 		this.colorHue += 30;
+		*/
 		/*
     this.words.push(new WordModel(
       'maia',
@@ -115,7 +117,7 @@ export class WordService {
 	}
 	
 	getWords() {
-		return this.words;
+		return this.words.slice();
 	}
 
 	generateStructure() {

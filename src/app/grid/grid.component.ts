@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { WordService } from '../shared/services/word.service';
 import { ToolsService } from '../shared/services/tools.service';
 import { NotificationsService } from '../shared/services/notifications.service';
+import { FirebaseService } from '../shared/services/firebase.service';
+import { Response } from '@angular/http';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-grid',
@@ -17,18 +20,62 @@ export class GridComponent implements OnInit {
   constructor(
     private wordSrv: WordService, 
     private toolSrv: ToolsService,
-    private notificationsSrv: NotificationsService) { }
+    private notificationsSrv: NotificationsService,
+    private backend: FirebaseService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    for (let i=0 ; i<this.rows.length ; i++ ) {
-      this.gameGrid.push([]);
-      for (let j=0 ; j<this.cols.length ; j++ ) {
-        this.gameGrid[i][j] = {
-          label: this.getRandomLetter(),
-          classes: []
-        };
+    const seasonId = this.route.snapshot.params.season;
+    const episodeId = this.route.snapshot.params.episode;
+    let grid;
+    let ddt;
+
+    this.backend.getEpisode()
+      .subscribe(
+        (response: Response ) => {
+          grid = response.json();
+          console.log('caca caca', grid[seasonId]['episodes'][episodeId]);
+          
+          if (grid[seasonId]['episodes'][episodeId]['grid'] && grid[seasonId]['episodes'][episodeId]['grid']['en'].length >0) {
+            this.gameGrid = grid[seasonId]['episodes'][episodeId]['grid']['en'].map(letters=>{
+              return letters.split('').map((letter)=>{
+                return {
+                  label: letter,
+                  ahhuevo: false,
+                  classes: []
+                }
+              })
+            });
+
+          } else {
+            console.log('need to generate a new grid');
+            for (let i=0 ; i<this.rows.length ; i++ ) {
+              this.gameGrid.push([]);
+              for (let j=0 ; j<this.cols.length ; j++ ) {
+                this.gameGrid[i][j] = {
+                  label: this.getRandomLetter(),
+                  classes: []
+                };
+              }
+            }
+          }
+          console.log('this is the game grid', grid);
+        }
+      );
+        /*
+      console.log('need to generate a new grid');
+      for (let i=0 ; i<this.rows.length ; i++ ) {
+        this.gameGrid.push([]);
+        for (let j=0 ; j<this.cols.length ; j++ ) {
+          this.gameGrid[i][j] = {
+            label: this.getRandomLetter(),
+            classes: []
+          };
+        }
       }
-    }
+      console.log(' >>> ', this.gameGrid);
+*/
+    console.log('generated grid > ', this.gameGrid);
   }
 
   getRandomLetter() {
