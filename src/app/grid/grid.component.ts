@@ -28,7 +28,6 @@ export class GridComponent implements OnInit {
     const seasonId = this.route.snapshot.params.season;
     const episodeId = this.route.snapshot.params.episode;
     let grid;
-    let ddt;
 
     this.backend.getEpisode()
       .subscribe(
@@ -62,20 +61,6 @@ export class GridComponent implements OnInit {
           console.log('this is the game grid', grid);
         }
       );
-        /*
-      console.log('need to generate a new grid');
-      for (let i=0 ; i<this.rows.length ; i++ ) {
-        this.gameGrid.push([]);
-        for (let j=0 ; j<this.cols.length ; j++ ) {
-          this.gameGrid[i][j] = {
-            label: this.getRandomLetter(),
-            classes: []
-          };
-        }
-      }
-      console.log(' >>> ', this.gameGrid);
-*/
-    console.log('generated grid > ', this.gameGrid);
   }
 
   getRandomLetter() {

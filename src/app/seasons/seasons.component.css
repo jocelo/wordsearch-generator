@@ -22,14 +22,38 @@
 	padding: 10px 20px;
 }
 
-button.btn.btn-season.active {
+button.btn.btn-season.active,
+button.btn.btn-episode.active {
 	box-shadow: 0 0 1pt 3pt lightgray;
 	background-color: lightgray;
 	color: black;
 }
 
-button.btn.btn-episode.active {
-	box-shadow: 0 0 1pt 3pt lightgray;
-	background-color: lightgray;
+.btn.action-edit i::before {
+	color: gray;
+}
+
+button.btn.action-edit i:hover::before {
 	color: black;
+}
+
+button.action-edit {
+	position: relative;
+}
+
+.inner-text {
+	padding-left: 10px;
+	padding-right: 5px;
+}
+
+.btn.action-edit i::before {
+	color: gray;
+}
+
+.btn.action-edit i:hover::before {
+	color: black;
+}
+
+.margin-top {
+	margin-top: 10px;
 }

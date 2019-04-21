@@ -1,3 +1,5 @@
+import { WordModel } from "./word.model";
+
 export class EpisodeModel {
 
 	constructor(
@@ -5,11 +7,11 @@ export class EpisodeModel {
 		private title: string,
 		private en: string,
 		private es: string,
-		private difficulty: string,
-		private words: {
-			en: string[],
-			es: string[]
-		},
-		private grid: string[][]
+		private diff: string,
+		private words: WordModel[],
+		private grid: {
+			'en': string[],
+			'es': string[]
+		}
 	) {}
 }

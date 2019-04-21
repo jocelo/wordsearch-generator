@@ -1,9 +1,10 @@
 export class WordModel {
 	constructor(
-		public label: string,
+		public es: string,
+		public en: string,
 		public bgColor: string,
 		public fontColor: string,
-		public active: boolean,
-		public used: boolean,
-		public dirty: boolean ) {}
+		public touched: boolean,
+		public dirty: boolean,
+		public active: boolean ) {}
 }

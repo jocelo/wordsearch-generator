@@ -1,17 +1,19 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FirebaseService } from '../shared/services/firebase.service';
 import { Response } from '@angular/http';
 import { NgForm } from '@angular/forms';
 import { SeasonModel } from '../shared/models/season.model';
 import { EpisodeModel } from '../shared/models/episode.model';
 import { Router } from '@angular/router';
+import { NotificationsService } from '../shared/services/notifications.service';
+import { WordModel } from '../shared/models/word.model';
 
 @Component({
   selector: 'app-seasons',
   templateUrl: './seasons.component.html',
   styleUrls: ['./seasons.component.css']
 })
-export class SeasonsComponent implements OnInit {
+export class SeasonsComponent implements OnInit, OnDestroy {
   showAddSeason: boolean = false;
   showAddEpisode: boolean = false;
   showAddWord: boolean = false;
@@ -20,14 +22,22 @@ export class SeasonsComponent implements OnInit {
   activeSeason: SeasonModel;
   activeEpisode: EpisodeModel;
   activeWordList: any;
+  activeWord: any;
   selectedSeason: number = -1;
   selectedEpisode: number = -1;
+  selectedWord: number = -1;
   alertMsg: string = '';
   showSeasonAlert: boolean = false;
   showEpisodeAlert: boolean = false;
   showWordAlert: boolean = false;
+  alertType: string = 'alert-success';
+
+  editMode: boolean = false;
 
   @ViewChild('enWordInput') wordInput: ElementRef;
+  @ViewChild('seasonForm') seasonForm: NgForm;
+  @ViewChild('episodeForm') episodeForm: NgForm;
+  @ViewChild('wordForm') wordForm: NgForm;
 
   constructor(
     private backendSrv: FirebaseService,
@@ -40,33 +50,37 @@ export class SeasonsComponent implements OnInit {
           this.seasons = data.json();
         }
       );
+    this.backendSrv.refreshCachedData.subscribe(
+      (data: SeasonModel[]) => {
+        console.log('I am reding the info on this channel', data);
+        this.seasons = data;
+        this.showAddSeason = false;
+        this.triggerAlert('season', 'deleted!', 'alert-danger');
+      }
+    );
   }
+
+  ngOnDestroy() {
+    this.backendSrv.refreshCachedData.unsubscribe();
+  }
+
+  /*
+  * Seasons
+  */
 
   onSelectSeason(seasonId: number) {
     this.hideAllAddForms();
     this.selectedSeason = seasonId;
     this.activeSeason = this.seasons[seasonId];
     this.episodes = this.activeSeason['episodes'];
+    this.selectedEpisode = -1;
   }
 
-  onSelectEpisode(episodeId: number) {
-    this.hideAllAddForms();
-    this.selectedEpisode = episodeId;
-    this.activeEpisode = this.activeSeason['episodes'][episodeId];
-    if (!this.activeEpisode['words']) {
-      this.activeEpisode['words'] = {'en':[], 'es':[]}
-    }
-
-    this.activeWordList = this.activeEpisode['words'];
+  addNewSeason() { 
+    this.showAddSeason = true;
+    this.editMode = false;
+    this.seasonForm.reset();
   }
-
-  onEditEpisode(episodeId: number) {
-    console.log('will be edited!!');
-  }
-
-  addNewSeason() { this.showAddSeason = true; }
-  addNewEpisode() { this.showAddEpisode = true; }
-  addNewWord() { this.showAddWord = true; }
 
   onSaveNewSeason(form: NgForm) {
     const entry = new SeasonModel(
@@ -89,6 +103,85 @@ export class SeasonsComponent implements OnInit {
       );
   }
 
+  onEditSeason(seasonId: number) {
+    this.showAddSeason = true;
+    this.editMode = true;
+
+    this.selectedSeason = seasonId;
+    this.activeSeason = this.seasons[seasonId];
+
+    this.seasonForm.setValue({
+      'catTitle': this.activeSeason['title'],
+      'catEn': this.activeSeason['en'],
+      'catEs': this.activeSeason['es']
+    });
+  }
+
+  onUpdateSeason() {
+    this.activeSeason['title'] = this.seasonForm.value.catTitle;
+    this.activeSeason['en'] = this.seasonForm.value.catEn;
+    this.activeSeason['es'] = this.seasonForm.value.catEs;
+    const that = this;
+    this.backendSrv.saveGame(this.seasons)
+      .subscribe(
+        (response: Response) => { 
+          that.seasonForm.reset();
+          that.showAddSeason = false;
+          that.triggerAlert('season');
+        }
+      );
+  }
+
+  onDeleteSeason() {
+    if (confirm('About to delete an entire Season.')) {
+      this.backendSrv.deleteSeason(this.selectedSeason);
+    }
+  }
+
+  /*
+  * Episodes
+  */
+
+  onSelectEpisode(episodeId: number) {
+    this.hideAllAddForms();
+    this.selectedEpisode = episodeId;
+    this.activeEpisode = this.activeSeason['episodes'][episodeId];
+    if (!this.activeEpisode['words']) {
+      this.activeEpisode['words'] = [];
+    }
+
+    this.activeWordList = this.activeEpisode['words'];
+  }
+
+  addNewEpisode() { 
+    this.showAddEpisode = true;
+    this.editMode = false;
+    this.episodeForm.reset();
+  }
+
+  onEditEpisode(episodeId: number) {
+    this.showAddEpisode = true;
+    this.editMode = true;
+
+    this.selectedEpisode = episodeId;
+    console.log('selecte episode', this.selectedEpisode);
+    console.log('this.selectedSeason', this.activeSeason)
+    this.activeEpisode = this.activeSeason['episodes'][episodeId];
+    
+    if (!this.activeEpisode['words']) {
+      this.activeEpisode['words'] = []
+    }
+
+    this.activeWordList = this.activeEpisode['words'];
+    
+    this.episodeForm.setValue({
+      'epiTitle': this.activeEpisode['title'],
+      'epiEn': this.activeEpisode['en'],
+      'epiDifficulty': 'normal',
+      'epiEs': this.activeEpisode['es']
+    });
+  }
+
   onSaveNewEpisode(gameForm: NgForm) {
     if (!this.activeSeason['episodes']) {
       this.activeSeason['episodes'] = [];
@@ -100,8 +193,8 @@ export class SeasonsComponent implements OnInit {
       gameForm.value.epiEn,
       gameForm.value.epiEs,
       'normal',
-      { en:[], es:[] },
-      [[]]
+      [],
+      {'en':[], 'es': []}
     ));
 
     this.backendSrv.saveGame(this.seasons)
@@ -110,10 +203,70 @@ export class SeasonsComponent implements OnInit {
       });
   }
 
+  onOpenEpisode() {
+    this.router.navigate(['/designer', this.selectedSeason, this.selectedEpisode]);
+  }
+
+  onUpdateEpisode() {
+    this.activeEpisode['title'] = this.episodeForm.value.epiTitle;
+    this.activeEpisode['en'] = this.episodeForm.value.epiEn;
+    this.activeEpisode['es'] = this.episodeForm.value.epiEs;
+    const that = this;
+    this.backendSrv.saveGame(this.seasons)
+      .subscribe(
+        (response: Response) => { 
+          that.episodeForm.reset();
+          that.showAddEpisode = false;
+          that.triggerAlert('episode');
+        }
+      );
+  }
+
+  /*
+  * Words
+  */
+
+  addNewWord() { this.showAddWord = true; }
+
+  onEditWord(wordId: number) {
+    this.showAddWord = true;
+    this.editMode = true;
+
+    this.selectedWord = wordId;
+    this.activeWord = this.activeEpisode['words'][this.selectedWord];
+    this.wordForm.setValue({
+      'wordEn': this.activeEpisode['words'][this.selectedWord]['en'],
+      'wordEs': this.activeEpisode['words'][this.selectedWord]['es']
+    });
+  }
+
+  onUpdateWord() {
+    this.activeEpisode['words'][this.activeWord]['en'] = this.wordForm.value.wordEn;
+    this.activeEpisode['words'][this.activeWord]['es'] = this.wordForm.value.wordEs;
+
+    console.log('this seasons:', this.seasons);
+    const that = this;
+    this.backendSrv.saveGame(this.seasons)
+      .subscribe(
+        (response: Response) => { 
+          that.wordForm.reset();
+          that.showAddWord = false;
+          that.triggerAlert('word');
+        }
+      );
+  }
+
   onSaveNewWord(wordForm: NgForm) {
-    this.activeEpisode['words']['en'].push(wordForm.value.wordEn);
-    this.activeEpisode['words']['es'].push(wordForm.value.wordEs);
-    
+    this.activeEpisode['words'].push(new WordModel(
+      wordForm.value.wordEs,
+      wordForm.value.wordEn,
+      'rgba(255, 255, 0, 0.8)',
+      'white',
+      false,
+      false,
+      false
+    ));
+
     this.backendSrv.saveGame(this.seasons)
       .subscribe((response: Response)=>{
         this.triggerAlert('word');
@@ -122,26 +275,39 @@ export class SeasonsComponent implements OnInit {
       });
   }
 
-  onOpenEpisode() {
-    this.router.navigate(['/designer', this.selectedSeason, this.selectedEpisode]);
-  }
-
   onCancel() {
     this.showAddSeason = false;
     this.showAddEpisode = false;
     this.showAddWord = false;
   }
 
-  private triggerAlert(type: string) {
+  onResetDB() {
+    if (confirm("Are you sure to reset DB to it's original state?")) {
+      this.backendSrv.restoreGameDB()
+        .subscribe(
+          (response: Response) => {
+            console.log('test', response.json());
+            this.seasons = response.json();
+          }
+        );
+    }
+  }
+
+  private triggerAlert(type: string, message: string = ' saved!', alertType: string = 'alert-success') {
+    if (this.alertType !== alertType) {
+      this.alertType = alertType;
+    }
+
     if (type === 'episode') {
       this.showEpisodeAlert = true;
-      this.alertMsg = 'Episode saved!';
+      this.alertMsg = `Episode ${message}`;
+      this.alertType = alertType;
     } else if (type === 'season') {
       this.showSeasonAlert = true;
-      this.alertMsg = 'Season saved!';
+      this.alertMsg = `Season ${message}`;
     } else if (type === 'word') {
       this.showWordAlert = true;
-      this.alertMsg = 'Word Combination saved!';
+      this.alertMsg = `Word Combination ${message}`;
     }
 
     setTimeout(()=>{

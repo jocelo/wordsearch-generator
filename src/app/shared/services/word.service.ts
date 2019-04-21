@@ -1,6 +1,7 @@
 import { WordModel } from "../models/word.model";
 import { ɵConsole, Injectable } from "@angular/core";
 import { NotificationsService } from "./notifications.service";
+import { Subject } from "rxjs";
 
 @Injectable()
 export class WordService {
@@ -11,6 +12,7 @@ export class WordService {
 	colorHue: number = 0;
 	fontColors: object;
 	grid: string[][];
+	markWordAsUsed = new Subject();
 
 	constructor(private notificationSrv: NotificationsService) {
 		this.fontColors = {
@@ -28,49 +30,14 @@ export class WordService {
 			330: 'white',
 			360: 'white'
 		};
-		/*
-		this.words.push(new WordModel(
-      'nanis',
-      this.getHslColor(this.colorHue),
-      this.getFontColor(this.colorHue),
-			false,
-			false, 
-			false
-		));
-		this.colorHue += 30;
-		*/
-		/*
-    this.words.push(new WordModel(
-      'maia',
-      this.getHslColor(this.colorHue),
-      this.getFontColor(this.colorHue),
-			false,
-			false,
-			false
-    ));
-    this.colorHue += 30;
-    this.words.push(new WordModel(
-      'paula',
-      this.getHslColor(this.colorHue),
-      this.getFontColor(this.colorHue),
-			false,
-			false,
-			false
-    ));
-		this.colorHue += 30;
-		*/
 	}
 
-	addWord(newWord: string) {
-		this.words.push(new WordModel(
-      newWord,
-      this.getHslColor(this.colorHue),
-      this.getFontColor(this.colorHue),
-			false,
-			false,
-			false
-		));
-    this.colorHue += 30;
+	addWords(newWords: WordModel[]) {
+		this.words = newWords;
+	}
+
+	cleanWordList() {
+		this.words = [];
 	}
 
 	setSelected(word: string, idx: number): void {
@@ -89,6 +56,7 @@ export class WordService {
 
 	markAsUsed() {
 		this.words[this.selectedIdx]['used'] = true;
+		this.markWordAsUsed.next(this.selectedIdx);
 	}
 
 	savePreviousState(row:number, col:number, label:string) {
@@ -117,6 +85,7 @@ export class WordService {
 	}
 	
 	getWords() {
+		console.log('avout to tget the words::::', this.words);
 		return this.words.slice();
 	}
 

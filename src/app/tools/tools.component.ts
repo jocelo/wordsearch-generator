@@ -26,7 +26,7 @@ export class ToolsComponent implements OnInit  {
   wordsAlertMessage: string;
   toolsAlertMessage: string;
   gameAlertMessage: string;
-  selectedW: number = -1;
+  selectedWordIdx: number = -1;
   seasonId: number = -1;
   episodeId: number = -1;
   game: SeasonModel[];
@@ -54,16 +54,10 @@ export class ToolsComponent implements OnInit  {
           this.game = response.json();
           this.season = this.game[this.seasonId];
           this.episode = this.season['episodes'][this.episodeId];
+          this.wordSrv.cleanWordList();
 
-          this.episode['words']['en'].forEach((word)=>{
-            this.wordSrv.addWord(word);
-          });
-          this.wordsList = this.wordSrv.getWords();
-          console.log('this.episode', this.episode);
-          if (this.episode['grid']) {
-            console.log('edit mode!!');
-            this.grid = [[]];
-          }
+          this.wordsList = this.episode['words'];
+          this.wordSrv.addWords(this.episode['words']);
         }
       );
     
@@ -85,50 +79,28 @@ export class ToolsComponent implements OnInit  {
         this.gameAlertMessage = '';
       }, 2500);
     });
+
+    this.wordSrv.markWordAsUsed.subscribe(
+      (response: number) => {
+        this.episode['words'][response]['dirty'] = true;
+        console.log(this.episode.words);
+      }
+    );
   }
-  /*
-  onAddWord() {
-    const newWord = String(this.newWord.nativeElement.value).trim();
-    if (newWord) {
-      this.wordSrv.addWord(newWord);
-    }
-  }
-  
-  onKeyUp(event: any) {
-    if (event.code === 'Enter') {
-      this.onAddWord();
-      this.newWord.nativeElement.select();
-    }
-  }
-  */
 
   onSelectWord(word: WordModel, idx: number) {
-    this.wordSrv.setSelected(word.label, idx);
-    this.selectedW = idx;
+    this.wordSrv.setSelected(word.en, idx);
+    this.selectedWordIdx = idx;
   }
-
-  /*
-  onGenerate() {
-    if ( this.gameName.nativeElement.value.trim() === '' ) {
-      console.log('inside');
-      this.notificationsSrv.game.next('Specify a name for the game.');
-    } else if ( this.wordSrv.allWordsUsed() ) {
-      // this.gameString = JSON.stringify( this.wordSrv.generateStructure() );
-    } else {
-      this.notificationsSrv.word.next('Please use all words before continue.');
-    }
-  }
-  */
 
   onSaveGrid() {
-    console.log('caca', this.wordSrv.generateStructure());
     const gameGenerated = this.wordSrv.generateStructure();
+
+    console.log('this game', this.game);
     
     this.episode['grid'] = {
       'en': gameGenerated.game
     };
-
-    console.log('!', this.game);
     
     this.backend.saveGame(this.game)
       .subscribe(
@@ -136,15 +108,9 @@ export class ToolsComponent implements OnInit  {
       );
   }
 
-  onResetDB() {
-    if (confirm("Are you sure to reset DB to it's original state?")) {
-      this.backend.restoreGameDB()
-        .subscribe(
-          (response: Response) => {
-            this.notificationsSrv.game();
-            console.log('DB cleaned!!'); 
-          }
-        );
+  onResetGrid() {
+    if (confirm('Reset grid to clean state?')) {
+
     }
   }
 

@@ -13,7 +13,7 @@
         <strong>Episode</strong> ( {{episode.title}} )
       </p>
       <p>
-          <strong>Words</strong> ( {{episode.words.es.length}} )
+          <strong>Words</strong> ( {{episode.words.length}} )
         </p>
     </div>
   </div>
@@ -22,7 +22,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <h4>Tools:</h4>
+    <h4>Word direction:</h4>
   </div>
 </div>
 
@@ -49,16 +49,28 @@
     </div>
   </div>
 
-  <div class="col-md-12" *ngIf="wordsList.length > 1">
+  <div class="col-md-12" *ngIf="episode.words.length > 1">
     <div class="words-container">
-      <div class="btn-group" role="group" *ngFor="let word of wordsList; let idx = index;" [ngClass]="{active: idx==selectedWordIdx}">
+      <div class="btn-group" role="group" 
+        *ngFor="let word of episode.words; let idx = index;" 
+        [ngClass]="{'selected': idx==selectedWordIdx}">
         <button type="button" 
           class="btn btn-dark badge-custom"
-          [ngClass]="{selected: i === selectedW}"
           [style.background-color]="word.bgColor" 
           [style.color]="word.fontColor"
-          (click)="onSelectWord(word, idx)">{{word.label}}</button>
-        <button type="button" class="btn btn-light badge-custom btn-border" disabled>{{episode['words']['es'][idx]}}</button>
+          (click)="onSelectWord(word, idx)">
+          {{word['en']}}
+          <div 
+            [ngClass]="(!word.dirty && idx !== selectedWordIdx) ? 'not-used' : ''"
+            class="curtain"></div>
+        </button>
+        <button type="button" class="btn btn-light badge-custom btn-border" disabled>
+            {{word['es']}}
+            <div 
+            [ngClass]="{'not-used': !word.dirty && idx !== selectedWordIdx }"
+            class="curtain"></div>
+        </button>
+        
       </div>
     </div>
   </div>
@@ -67,13 +79,10 @@
 <hr />
 
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-6">
     <button type="button" class="btn btn-success" (click)="onSaveGrid()">Save</button>
   </div>
-</div>
-
-<!-- <div class="row">
-  <div class="col-xs-12">
-    <button class="btn btn-danger" (click)="onResetDB()">Reset DB</button>
+  <div class="col-md-6 align-right">
+    <button type="button" class="btn btn-danger" (click)="onResetGrid()">Reset Grid</button>
   </div>
-</div> -->
+</div>
