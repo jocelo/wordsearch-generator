@@ -72,7 +72,7 @@
     <div class="btn-toolbar">
       <button type="button" 
         *ngFor="let epi of episodes; let idx = index;" 
-        class="btn btn-light btn-episode" 
+        class="btn btn-light btn-episode action-edit" 
         [ngClass]="{active: selectedEpisode == idx}" 
         (click)="onSelectEpisode(idx)">
           <span class="inner-text">{{epi.title}}</span> 
@@ -149,7 +149,7 @@
     <div class="alert alert-success" role="alert" *ngIf="showWordAlert"> {{alertMsg}} </div>
     <div class="btn-group" role="group" *ngFor="let word of activeWordList; let idx = index;">
       <button type="button" class="btn btn-dark">{{word.en}}</button>
-      <button type="button" class="btn btn-light btn-border">
+      <button type="button" class="btn btn-light btn-border action-edit">
         <span class="inner-text">{{word.es}}</span> 
         <i class="fas fa-pencil-alt" (click)="onEditWord(idx); $event.stopPropagation();"></i>
       </button>
@@ -200,7 +200,11 @@
 
 <div class="row">
   <div class="col-md-6">
-    <button type="button" class="btn btn-primary" (click)="onOpenEpisode()" [disabled]="selectedEpisode === -1">Edit episode</button>
+    <button type="button" 
+      class="btn btn-primary" 
+      (click)="onOpenEpisode()"
+      *ngIf="selectedEpisode !== -1 && selectedSeason !== -1" 
+      [disabled]="selectedEpisode === -1">Edit {{activeSeason.title}} > {{activeEpisode.title}}</button>
   </div>
   <div class="col-md-6 text-right">
     <button class="btn btn-danger" (click)="onResetDB()">Reset DB</button>

@@ -29,14 +29,6 @@ button.btn.btn-episode.active {
 	color: black;
 }
 
-.btn.action-edit i::before {
-	color: gray;
-}
-
-button.btn.action-edit i:hover::before {
-	color: black;
-}
-
 button.action-edit {
 	position: relative;
 }
@@ -47,11 +39,11 @@ button.action-edit {
 }
 
 .btn.action-edit i::before {
-	color: gray;
+	color: lightgray;
 }
 
 .btn.action-edit i:hover::before {
-	color: black;
+	color: rgb(138, 134, 134);
 }
 
 .margin-top {

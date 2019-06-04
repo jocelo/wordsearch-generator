@@ -106,6 +106,7 @@ export class SeasonsComponent implements OnInit, OnDestroy {
   }
 
   onEditSeason(seasonId: number) {
+    this.hideAllAddForms(); 
     this.showAddSeason = true;
     this.editMode = true;
 
@@ -163,6 +164,7 @@ export class SeasonsComponent implements OnInit, OnDestroy {
   }
 
   onEditEpisode(episodeId: number) {
+    this.hideAllAddForms(); 
     this.showAddEpisode = true;
     this.editMode = true;
 
@@ -229,9 +231,15 @@ export class SeasonsComponent implements OnInit, OnDestroy {
   * Words
   */
 
-  addNewWord() { this.hideAllAddForms(); this.showAddWord = true; }
+  addNewWord() { 
+    this.hideAllAddForms(); 
+    this.showAddWord = true; 
+    this.editMode = false;
+    this.wordForm.reset();
+  }
 
   onEditWord(wordId: number) {
+    this.hideAllAddForms(); 
     this.showAddWord = true;
     this.editMode = true;
 
