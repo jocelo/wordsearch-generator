@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-2">
-    <h3>Seasons</h3>
+    <h3>Groups</h3>
   </div>
   <div class="col-md-9">
     <div [ngClass]="this.alertType" class="alert alert-success" role="alert" *ngIf="showSeasonAlert"> {{alertMsg}} </div>
@@ -26,7 +26,7 @@
       <input type="text" 
         class="form-control" 
         name="catTitle" 
-        placeholder="Season Title"
+        placeholder="Group Title"
         ngModel>
     </div>
     <div class="row">
@@ -65,7 +65,7 @@
 
 <div class="row">
   <div class="col-md-2">
-    <h3>Episodes</h3>
+    <h3>Categories</h3>
   </div>
   <div class="col-md-9" *ngIf="selectedSeason != -1">
     <div class="alert alert-success" role="alert" *ngIf="showEpisodeAlert"> {{alertMsg}} </div>
@@ -91,7 +91,7 @@
             <input type="text" 
               class="form-control" 
               name="epiTitle" 
-              placeholder="Episode Title"
+              placeholder="Category Title"
               ngModel>
           </div>
           <div class="col">

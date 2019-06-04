@@ -98,7 +98,7 @@ export class WordService {
 		});
 
 		const game = {
-			words: this.words.map(word=>word.label),
+			words: this.words.map(word=>word.en),
 			game: allData
 		};
 
@@ -110,6 +110,6 @@ export class WordService {
 	}
 
 	allWordsUsed() {
-		return this.words.filter(item=>!item.used).length === 0;
+		return this.words.filter(item=>!item.dirty).length === 0;
 	}
 }

@@ -83,7 +83,6 @@ export class ToolsComponent implements OnInit  {
     this.wordSrv.markWordAsUsed.subscribe(
       (response: number) => {
         this.episode['words'][response]['dirty'] = true;
-        console.log(this.episode.words);
       }
     );
   }
@@ -97,10 +96,11 @@ export class ToolsComponent implements OnInit  {
     const gameGenerated = this.wordSrv.generateStructure();
 
     console.log('this game', this.game);
-    
+    /*
     this.episode['grid'] = {
       'en': gameGenerated.game
     };
+    */
     
     this.backend.saveGame(this.game)
       .subscribe(

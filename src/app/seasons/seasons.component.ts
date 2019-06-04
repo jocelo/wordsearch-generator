@@ -76,7 +76,9 @@ export class SeasonsComponent implements OnInit, OnDestroy {
     this.selectedEpisode = -1;
   }
 
-  addNewSeason() { 
+  addNewSeason() {
+    this.hideAllAddForms();
+
     this.showAddSeason = true;
     this.editMode = false;
     this.seasonForm.reset();
@@ -154,6 +156,7 @@ export class SeasonsComponent implements OnInit, OnDestroy {
   }
 
   addNewEpisode() { 
+    this.hideAllAddForms();
     this.showAddEpisode = true;
     this.editMode = false;
     this.episodeForm.reset();
@@ -226,7 +229,7 @@ export class SeasonsComponent implements OnInit, OnDestroy {
   * Words
   */
 
-  addNewWord() { this.showAddWord = true; }
+  addNewWord() { this.hideAllAddForms(); this.showAddWord = true; }
 
   onEditWord(wordId: number) {
     this.showAddWord = true;
