@@ -5,7 +5,7 @@
       </div>
     </div>
     <div class="col-md-12">
-      <h4>Game Selected: </h4>
+      <h4>Game Selected: {{lang}}</h4>
       <p>
         <strong>Season</strong> ( {{season.title}} )
       </p>
@@ -13,8 +13,17 @@
         <strong>Episode</strong> ( {{episode.title}} )
       </p>
       <p>
-          <strong>Words</strong> ( {{episode.words.length}} )
-        </p>
+        <strong>Words</strong> ( {{episode.words.length}} )
+      </p>
+      <p>
+        Language: 
+        <select 
+          #langSelect
+          ng-model="lang" (change)="onChangeLanguage(langSelect.value)">
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+        </select>
+      </p>
     </div>
   </div>
 

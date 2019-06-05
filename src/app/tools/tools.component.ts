@@ -33,6 +33,7 @@ export class ToolsComponent implements OnInit  {
   season: SeasonModel;
   episode: EpisodeModel;
   grid: [string[]];
+  lang: string = 'en';
 
   constructor(
     private wordSrv: WordService,
@@ -90,6 +91,10 @@ export class ToolsComponent implements OnInit  {
   onSelectWord(word: WordModel, idx: number) {
     this.wordSrv.setSelected(word.en, idx);
     this.selectedWordIdx = idx;
+  }
+
+  onChangeLanguage(newLang: string) {
+    this.lang = newLang;
   }
 
   onSaveGrid() {

@@ -107,6 +107,7 @@ export class SeasonsComponent implements OnInit, OnDestroy {
 
   onEditSeason(seasonId: number) {
     this.hideAllAddForms(); 
+    this.selectedEpisode = -1;
     this.showAddSeason = true;
     this.editMode = true;
 
