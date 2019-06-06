@@ -93,6 +93,13 @@ export class GridComponent implements OnInit, OnDestroy {
       return;
     }
 
+    console.log('a ver a ver', word.length+sCol, word.length+sRow);
+
+    if ( this.outOfBounds(word.length, sCol sRow, direction) ) {
+      this.notificationsSrv.game.next('Nel no cabe');
+      return;
+    }
+
     if (caca['used']) {
       //this.notificationsSrv.word.next('Word alredy used.');
       //return;
@@ -127,6 +134,19 @@ export class GridComponent implements OnInit, OnDestroy {
     this.wordSrv.markAsUsed();
 
   } // onCellClicked
+
+  private outOfBounds(wordSize: number, col: number, row: number, direction: string) {
+    console.log('direction', direction);
+    if (direction.indexOf('east') != -1 && wordSize+col > 16) {
+      return true;
+    }
+
+    if (direction.indexOf('south') != -1 && wordSize+row > 11) {
+      return true;
+    }
+
+    return false;
+  }
 
   private getNextCoord(coord: {row: number, col: number}, direction: string): {row: number, col:number}{
     let nextRow: number = coord.row,
