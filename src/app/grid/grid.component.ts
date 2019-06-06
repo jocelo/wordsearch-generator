@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { WordService } from '../shared/services/word.service';
 import { ToolsService } from '../shared/services/tools.service';
 import { NotificationsService } from '../shared/services/notifications.service';
@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.css']
 })
-export class GridComponent implements OnInit {
+export class GridComponent implements OnInit, OnDestroy {
   rows: string[] = Array(11);
   cols: string[] = Array(16);
   gameGrid: any = [];
@@ -34,9 +34,10 @@ export class GridComponent implements OnInit {
         (response: Response ) => {
           grid = response.json();
           console.log('caca caca', grid[seasonId]['episodes'][episodeId]);
+          console.log( 'my language:', this.wordSrv.getLanguage() );
           
-          if (grid[seasonId]['episodes'][episodeId]['grid'] && grid[seasonId]['episodes'][episodeId]['grid']['en'].length >0) {
-            this.gameGrid = grid[seasonId]['episodes'][episodeId]['grid']['en'].map(letters=>{
+          if (grid[seasonId]['episodes'][episodeId]['grid'] && grid[seasonId]['episodes'][episodeId]['grid'][this.wordSrv.getLanguage()].length >0) {
+            this.gameGrid = grid[seasonId]['episodes'][episodeId]['grid'][this.wordSrv.getLanguage()].map(letters=>{
               return letters.split('').map((letter)=>{
                 return {
                   label: letter,
@@ -61,6 +62,16 @@ export class GridComponent implements OnInit {
           console.log('this is the game grid', grid);
         }
       );
+      
+    this.wordSrv.changeInLanguage.subscribe(
+      (newLang: string)=>{
+        console.log('second detection!!! > ', newLang, '<');
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.wordSrv.changeInLanguage.unsubscribe();
   }
 
   getRandomLetter() {

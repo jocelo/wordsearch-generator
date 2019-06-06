@@ -5,7 +5,7 @@
       </div>
     </div>
     <div class="col-md-12">
-      <h4>Game Selected: {{lang}}</h4>
+      <h4>Game Selected:</h4>
       <p>
         <strong>Season</strong> ( {{season.title}} )
       </p>
@@ -68,13 +68,13 @@
           [style.background-color]="word.bgColor" 
           [style.color]="word.fontColor"
           (click)="onSelectWord(word, idx)">
-          {{word['en']}}
+          {{word[mainLang]}}
           <div 
             [ngClass]="(!word.dirty && idx !== selectedWordIdx) ? 'not-used' : ''"
             class="curtain"></div>
         </button>
         <button type="button" class="btn btn-light badge-custom btn-border" disabled>
-            {{word['es']}}
+            {{word[secondLang]}}
             <div 
             [ngClass]="{'not-used': !word.dirty && idx !== selectedWordIdx }"
             class="curtain"></div>

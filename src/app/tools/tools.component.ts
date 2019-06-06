@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { WordService } from '../shared/services/word.service';
 import { ToolsService } from '../shared/services/tools.service';
 import { NotificationsService } from '../shared/services/notifications.service';
@@ -14,7 +14,7 @@ import { WordModel } from '../shared/models/word.model';
   templateUrl: './tools.component.html',
   styleUrls: ['./tools.component.css']
 })
-export class ToolsComponent implements OnInit  {
+export class ToolsComponent implements OnInit, OnDestroy {
   wordsList: object[] = [];
   db: any;
 
@@ -33,7 +33,9 @@ export class ToolsComponent implements OnInit  {
   season: SeasonModel;
   episode: EpisodeModel;
   grid: [string[]];
-  lang: string = 'en';
+  mainLang: string = 'en';
+  secondLang: string = 'es';
+  langSwitch: {};
 
   constructor(
     private wordSrv: WordService,
@@ -48,6 +50,9 @@ export class ToolsComponent implements OnInit  {
     this.wordsList = this.wordSrv.getWords();
     this.seasonId = this.route.snapshot.params.season;
     this.episodeId = this.route.snapshot.params.episode;
+    this.langSwitch = {};
+    this.langSwitch[this.mainLang] = this.secondLang;
+    this.langSwitch[this.secondLang] = this.mainLang;
 
     this.backend.getDB()
       .subscribe(
@@ -88,13 +93,19 @@ export class ToolsComponent implements OnInit  {
     );
   }
 
+  ngOnDestroy() {
+    
+  }
+
   onSelectWord(word: WordModel, idx: number) {
-    this.wordSrv.setSelected(word.en, idx);
+    this.wordSrv.setSelected(word[this.mainLang], idx);
     this.selectedWordIdx = idx;
   }
 
   onChangeLanguage(newLang: string) {
-    this.lang = newLang;
+    this.mainLang = newLang;
+    this.secondLang = this.langSwitch[newLang];
+    this.wordSrv.setLanguage(this.mainLang);
   }
 
   onSaveGrid() {
@@ -106,6 +117,7 @@ export class ToolsComponent implements OnInit  {
       'en': gameGenerated.game
     };
     */
+   return;
     
     this.backend.saveGame(this.game)
       .subscribe(

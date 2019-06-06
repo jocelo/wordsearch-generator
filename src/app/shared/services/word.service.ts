@@ -7,12 +7,14 @@ import { Subject } from "rxjs";
 export class WordService {
 	selectedWord: string;
 	selectedIdx: number;
+	languageInUse: string;
 	backup: object[] = [];
 	words: WordModel[] = [];
 	colorHue: number = 0;
 	fontColors: object;
 	grid: string[][];
 	markWordAsUsed = new Subject();
+	changeInLanguage = new Subject();
 
 	constructor(private notificationSrv: NotificationsService) {
 		this.fontColors = {
@@ -30,6 +32,7 @@ export class WordService {
 			330: 'white',
 			360: 'white'
 		};
+		this.languageInUse = 'en';
 	}
 
 	addWords(newWords: WordModel[]) {
@@ -90,6 +93,7 @@ export class WordService {
 	}
 
 	generateStructure() {
+		console.log('this grid', this.grid);
 		let allData = this.grid.map((row,index)=>{
 			let caca = row.map(col=>{
 				return col['label'];
@@ -111,5 +115,14 @@ export class WordService {
 
 	allWordsUsed() {
 		return this.words.filter(item=>!item.dirty).length === 0;
+	}
+
+	getLanguage() {
+		return this.languageInUse;
+	}
+
+	setLanguage(lang: string) {
+		this.languageInUse = lang;
+		this.changeInLanguage.next(this.languageInUse);
 	}
 }
