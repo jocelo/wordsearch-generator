@@ -145,6 +145,14 @@ export class GridComponent implements OnInit, OnDestroy {
       return true;
     }
 
+    if (direction.indexOf('west') != -1 && col-wordSize < -1) {
+      return true;
+    }
+
+    if (direction.indexOf('north') != -1 && row-wordSize < -1) {
+      return true;
+    }
+
     return false;
   }
 
