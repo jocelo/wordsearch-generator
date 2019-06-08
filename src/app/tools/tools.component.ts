@@ -64,6 +64,8 @@ export class ToolsComponent implements OnInit, OnDestroy {
 
           this.wordsList = this.episode['words'];
           this.wordSrv.addWords(this.episode['words']);
+
+          console.log('wordsList', this.wordsList);
         }
       );
     
@@ -111,7 +113,14 @@ export class ToolsComponent implements OnInit, OnDestroy {
   onSaveGrid() {
     const gameGenerated = this.wordSrv.generateStructure();
 
-    console.log('this game', this.game);
+    if (this.episode['words'].filter(word=>!word.dirty).length > 0 ) {
+      this.notificationsSrv.game();
+      return;
+    }
+    // console.log('this the whole game', this.game);
+    this.game[this.seasonId].episodes[this.episodeId]['grid'] = {};
+    this.game[this.seasonId].episodes[this.episodeId]['grid'][this.mainLang] = 'ENENEN';
+    console.log('this selected season and episode:', this.game[this.seasonId].episodes[this.episodeId]);
     /*
     this.episode['grid'] = {
       'en': gameGenerated.game

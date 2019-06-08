@@ -12,7 +12,7 @@ export class WordService {
 	words: WordModel[] = [];
 	colorHue: number = 0;
 	fontColors: object;
-	grid: string[][];
+	gameGrid: string[][];
 	markWordAsUsed = new Subject();
 	changeInLanguage = new Subject();
 
@@ -93,7 +93,8 @@ export class WordService {
 	}
 
 	generateStructure() {
-		console.log('this grid', this.grid);
+		console.log('this grid', this.gameGrid);
+		return;
 		let allData = this.grid.map((row,index)=>{
 			let caca = row.map(col=>{
 				return col['label'];
@@ -110,7 +111,8 @@ export class WordService {
 	}
 
 	setGrid(grid: any){
-		this.grid = grid;
+		console.log('!!!! <> !!!!');
+		this.gameGrid = grid;
 	}
 
 	allWordsUsed() {

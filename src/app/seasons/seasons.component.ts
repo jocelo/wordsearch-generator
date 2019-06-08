@@ -7,6 +7,7 @@ import { EpisodeModel } from '../shared/models/episode.model';
 import { Router } from '@angular/router';
 import { NotificationsService } from '../shared/services/notifications.service';
 import { WordModel } from '../shared/models/word.model';
+import { WordService } from '../shared/services/word.service';
 
 @Component({
   selector: 'app-seasons',
@@ -41,6 +42,7 @@ export class SeasonsComponent implements OnInit, OnDestroy {
 
   constructor(
     private backendSrv: FirebaseService,
+    private wordSrv: WordService,
     private router: Router ) { }
 
   ngOnInit() {
@@ -269,11 +271,16 @@ export class SeasonsComponent implements OnInit, OnDestroy {
   }
 
   onSaveNewWord(wordForm: NgForm) {
+    const colorCode = this.wordSrv.getHslColor(this.activeEpisode['words'].length * 30),
+      fontColor = this.wordSrv.getFontColor(this.activeEpisode['words'].length * 30);
+    console.log('how many so far?', this.activeEpisode['words'].length);
+    console.log(colorCode, 'and `the color is:', this.wordSrv.getHslColor(colorCode));
+
     this.activeEpisode['words'].push(new WordModel(
       wordForm.value.wordEs,
       wordForm.value.wordEn,
-      'rgba(255, 255, 0, 0.8)',
-      'white',
+      colorCode,
+      fontColor,
       false,
       false,
       false

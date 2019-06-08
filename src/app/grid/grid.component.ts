@@ -59,7 +59,7 @@ export class GridComponent implements OnInit, OnDestroy {
               }
             }
           }
-          console.log('this is the game grid', grid);
+          this.wordSrv.setGrid(this.gameGrid);
         }
       );
       
