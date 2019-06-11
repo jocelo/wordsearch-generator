@@ -39,6 +39,7 @@ export class ToolsComponent implements OnInit, OnDestroy {
 
   constructor(
     private wordSrv: WordService,
+    private toolSrv: ToolsService,
     private route: ActivatedRoute,
     private notificationsSrv: NotificationsService,
     private backend: FirebaseService) { }
@@ -89,8 +90,11 @@ export class ToolsComponent implements OnInit, OnDestroy {
     });
 
     this.wordSrv.markWordAsUsed.subscribe(
-      (response: number) => {
-        this.episode['words'][response]['dirty'] = true;
+      (response: object) => {
+        this.episode['words'][response['idx']]['dirty'] = true;
+        this.episode['words'][response['idx']]['start'] = {row: response['row'], col: response['col']};
+        this.episode['words'][response['idx']]['direction'] = this.toolSrv.getDirection();
+        console.log('>>', this.episode['words'][response['idx']]);
       }
     );
   }
@@ -113,10 +117,6 @@ export class ToolsComponent implements OnInit, OnDestroy {
   onSaveGrid() {
     const gameGenerated = this.wordSrv.generateStructure();
 
-    if (this.episode['words'].filter(word=>!word.dirty).length > 0 ) {
-      this.notificationsSrv.game();
-      return;
-    }
     // console.log('this the whole game', this.game);
     this.game[this.seasonId].episodes[this.episodeId]['grid'] = {};
     this.game[this.seasonId].episodes[this.episodeId]['grid'][this.mainLang] = 'ENENEN';

@@ -93,9 +93,7 @@ export class GridComponent implements OnInit, OnDestroy {
       return;
     }
 
-    console.log('a ver a ver', word.length+sCol, word.length+sRow);
-
-    if ( this.outOfBounds(word.length, sCol sRow, direction) ) {
+    if ( this.outOfBounds(word.length, sCol, sRow, direction) ) {
       this.notificationsSrv.game.next('Nel no cabe');
       return;
     }
@@ -131,7 +129,7 @@ export class GridComponent implements OnInit, OnDestroy {
 
     this.wordSrv.setGrid(this.gameGrid);
 
-    this.wordSrv.markAsUsed();
+    this.wordSrv.markAsUsed(sCol, sRow);
 
   } // onCellClicked
 

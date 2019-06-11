@@ -57,9 +57,8 @@ export class WordService {
 		return this.words[this.selectedIdx];
 	}
 
-	markAsUsed() {
-		this.words[this.selectedIdx]['used'] = true;
-		this.markWordAsUsed.next(this.selectedIdx);
+	markAsUsed(col: number, row: number) {
+		this.markWordAsUsed.next({idx: this.selectedIdx, col: col, row: row});
 	}
 
 	savePreviousState(row:number, col:number, label:string) {
