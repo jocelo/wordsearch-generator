@@ -91,26 +91,11 @@ export class WordService {
 		return this.words.slice();
 	}
 
-	generateStructure() {
-		console.log('this grid', this.gameGrid);
-		return;
-		let allData = this.grid.map((row,index)=>{
-			let caca = row.map(col=>{
-				return col['label'];
-			}).join('')
-			return caca;
-		});
-
-		const game = {
-			words: this.words.map(word=>word.en),
-			game: allData
-		};
-
-		return game;
+	getGameGrid() {
+		return this.gameGrid;
 	}
 
 	setGrid(grid: any){
-		console.log('!!!! <> !!!!');
 		this.gameGrid = grid;
 	}
 

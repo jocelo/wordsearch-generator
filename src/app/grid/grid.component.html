@@ -6,6 +6,6 @@
   <div *ngFor="let column of line; let j = index;"
     class="grid-col"
     [ngClass]="column.classes"
-    [style.background-color]="column.shit"
+    [style.background-color]="column.bgColor"
     (click)="onCellClicked(i, j)" >{{column.label}} </div>
 </div>

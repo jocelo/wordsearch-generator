@@ -10,8 +10,8 @@ export class EpisodeModel {
 		private diff: string,
 		private words: WordModel[],
 		private grid: {
-			'en': string[],
-			'es': string[]
+			'en': [],
+			'es': []
 		}
 	) {}
 }

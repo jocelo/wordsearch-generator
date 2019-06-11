@@ -5,6 +5,7 @@ import { NotificationsService } from '../shared/services/notifications.service';
 import { FirebaseService } from '../shared/services/firebase.service';
 import { Response } from '@angular/http';
 import { ActivatedRoute } from '@angular/router';
+import { EpisodeModel } from '../shared/models/episode.model';
 
 @Component({
   selector: 'app-grid',
@@ -16,6 +17,7 @@ export class GridComponent implements OnInit, OnDestroy {
   cols: string[] = Array(16);
   gameGrid: any = [];
   wordsGrid: string[];
+  episode: EpisodeModel;
 
   constructor(
     private wordSrv: WordService, 
@@ -33,22 +35,22 @@ export class GridComponent implements OnInit, OnDestroy {
       .subscribe(
         (response: Response ) => {
           grid = response.json();
-          console.log('caca caca', grid[seasonId]['episodes'][episodeId]);
           console.log( 'my language:', this.wordSrv.getLanguage() );
-          
-          if (grid[seasonId]['episodes'][episodeId]['grid'] && grid[seasonId]['episodes'][episodeId]['grid'][this.wordSrv.getLanguage()].length >0) {
-            this.gameGrid = grid[seasonId]['episodes'][episodeId]['grid'][this.wordSrv.getLanguage()].map(letters=>{
+
+          this.episode = grid[seasonId]['episodes'][episodeId];
+          this.gameGrid = this.episode['grid'][this.wordSrv.getLanguage()];
+
+          if (this.episode['grid'] && this.episode['grid'][this.wordSrv.getLanguage()].length >0) {
+            this.gameGrid = this.episode['grid'][this.wordSrv.getLanguage()].map(letters=>{
               return letters.split('').map((letter)=>{
                 return {
                   label: letter,
-                  ahhuevo: false,
                   classes: []
                 }
               })
             });
 
           } else {
-            console.log('need to generate a new grid');
             for (let i=0 ; i<this.rows.length ; i++ ) {
               this.gameGrid.push([]);
               for (let j=0 ; j<this.cols.length ; j++ ) {
@@ -120,8 +122,7 @@ export class GridComponent implements OnInit, OnDestroy {
         this.wordSrv.savePreviousState(nextCoord.row, nextCoord.col, this.gameGrid[nextCoord.row][nextCoord.col]);
         this.gameGrid[nextCoord.row][nextCoord.col] = {
           label: wordForSplit.shift(),
-          classes: [''],
-          shit: caca['bgColor']
+          bgColor: caca['bgColor']
         }
         nextCoord = this.getNextCoord(nextCoord, direction);
       }
