@@ -65,8 +65,6 @@ export class ToolsComponent implements OnInit, OnDestroy {
 
           this.wordsList = this.episode['words'];
           this.wordSrv.addWords(this.episode['words']);
-
-          console.log('wordsList', this.wordsList);
         }
       );
     
@@ -94,7 +92,6 @@ export class ToolsComponent implements OnInit, OnDestroy {
         this.episode['words'][response['idx']]['dirty'] = true;
         this.episode['words'][response['idx']]['start'] = {row: response['row'], col: response['col']};
         this.episode['words'][response['idx']]['direction'] = this.toolSrv.getDirection();
-        console.log('>>', this.episode['words'][response['idx']]);
       }
     );
   }
@@ -116,17 +113,7 @@ export class ToolsComponent implements OnInit, OnDestroy {
 
   onSaveGrid() {
     const gameGenerated = this.wordSrv.getGameGrid();
-
-    // console.log('this the whole game', this.game);
-    this.episode['grid'] = {en:'', es:''};
-    this.game[this.seasonId].episodes[this.episodeId]['grid'][this.mainLang] = {};
-    this.game[this.seasonId].episodes[this.episodeId]['grid'][this.mainLang] = gameGenerated;
-    console.log('this selected season and episode:', this.game[this.seasonId].episodes[this.episodeId]);
-    /*
-    this.episode['grid'] = {
-      'en': gameGenerated.game
-    };
-    */
+    this.episode['grid'][this.mainLang] = gameGenerated;
     
     this.backend.saveGame(this.game)
     .subscribe(

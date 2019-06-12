@@ -96,6 +96,7 @@ export class WordService {
 	}
 
 	setGrid(grid: any){
+		debugger;
 		this.gameGrid = grid;
 	}
 

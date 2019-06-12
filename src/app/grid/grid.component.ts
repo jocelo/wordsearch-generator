@@ -18,6 +18,7 @@ export class GridComponent implements OnInit, OnDestroy {
   gameGrid: any = [];
   wordsGrid: string[];
   episode: EpisodeModel;
+  language: string;
 
   constructor(
     private wordSrv: WordService, 
@@ -35,13 +36,12 @@ export class GridComponent implements OnInit, OnDestroy {
       .subscribe(
         (response: Response ) => {
           grid = response.json();
-          console.log( 'my language:', this.wordSrv.getLanguage() );
-
+          this.language = this.wordSrv.getLanguage();
           this.episode = grid[seasonId]['episodes'][episodeId];
-          this.gameGrid = this.episode['grid'][this.wordSrv.getLanguage()];
+          this.gameGrid = this.episode['grid'][this.language];
 
-          if (this.episode['grid'] && this.episode['grid'][this.wordSrv.getLanguage()].length >0) {
-            this.gameGrid = this.episode['grid'][this.wordSrv.getLanguage()].map(letters=>{
+          if (this.gameGrid && this.episode['grid'][this.language].length >0) {
+            this.gameGrid = this.episode['grid'][this.language].map(letters=>{
               return letters.split('').map((letter)=>{
                 return {
                   label: letter,
@@ -51,15 +51,7 @@ export class GridComponent implements OnInit, OnDestroy {
             });
 
           } else {
-            for (let i=0 ; i<this.rows.length ; i++ ) {
-              this.gameGrid.push([]);
-              for (let j=0 ; j<this.cols.length ; j++ ) {
-                this.gameGrid[i][j] = {
-                  label: this.getRandomLetter(),
-                  classes: []
-                };
-              }
-            }
+            this.generateGameGrid();
           }
           this.wordSrv.setGrid(this.gameGrid);
         }
@@ -67,7 +59,17 @@ export class GridComponent implements OnInit, OnDestroy {
       
     this.wordSrv.changeInLanguage.subscribe(
       (newLang: string)=>{
-        console.log('second detection!!! > ', newLang, '<');
+        this.language = newLang;
+        console.log('second detection!!! > ', newLang, '<', this.language);
+        console.log( this.episode['grid'][this.language] );
+        if (!this.episode['grid'][this.language] || this.episode['grid'][this.language].length < 1) {
+          console.log('we need to add the grid');
+          this.generateGameGrid();
+        } else {
+          console.log( this.episode['grid'][this.language] );
+          this.gameGrid = this.episode['grid'][this.language];
+        }
+        console.log('after the change::', this.episode);
       }
     );
   }
@@ -194,6 +196,19 @@ export class GridComponent implements OnInit, OnDestroy {
     return {
       row: nextRow,
       col: nextCol
+    }
+  }
+
+  private generateGameGrid() {
+    this.gameGrid = [];
+    for (let i=0 ; i<this.rows.length ; i++ ) {
+      this.gameGrid.push([]);
+      for (let j=0 ; j<this.cols.length ; j++ ) {
+        this.gameGrid[i][j] = {
+          label: this.getRandomLetter(),
+          classes: []
+        };
+      }
     }
   }
 }
