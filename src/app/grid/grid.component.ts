@@ -42,10 +42,12 @@ export class GridComponent implements OnInit, OnDestroy {
 
           if (this.gameGrid && this.episode['grid'][this.language].length >0) {
             this.gameGrid = this.episode['grid'][this.language].map(letters=>{
-              return letters.split('').map((letter)=>{
+              console.log('letters > ',letters);
+              return letters.map((letter)=>{
+                console.log(' >> letter', letter);
                 return {
-                  label: letter,
-                  classes: []
+                  label: letter.label,
+                  classes: letter.bgColor
                 }
               })
             });

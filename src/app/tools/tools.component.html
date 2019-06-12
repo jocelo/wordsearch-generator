@@ -6,13 +6,13 @@
     </div>
     <div class="col-md-12">
       <h4>Game Selected:</h4>
-      <p>
+      <p *ngIf="season">
         <strong>Season</strong> ( {{season.title}} )
       </p>
-      <p>
+      <p *ngIf="episode">
         <strong>Episode</strong> ( {{episode.title}} )
       </p>
-      <p>
+      <p *ngIf="episode && episode.words">
         <strong>Words</strong> ( {{episode.words.length}} )
       </p>
       <p>
@@ -58,7 +58,7 @@
     </div>
   </div>
 
-  <div class="col-md-12" *ngIf="episode.words.length > 1">
+  <div class="col-md-12" *ngIf="episode && episode.words.length > 1">
     <div class="words-container">
       <div class="btn-group" role="group" 
         *ngFor="let word of episode.words; let idx = index;" 

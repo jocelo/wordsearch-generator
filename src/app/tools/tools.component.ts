@@ -45,6 +45,7 @@ export class ToolsComponent implements OnInit, OnDestroy {
     private backend: FirebaseService) { }
 
   ngOnInit() {
+    console.log('episode', this.episode);
     this.wordsAlertMessage = '';
     this.toolsAlertMessage = '';
     this.gameAlertMessage = '';
@@ -117,7 +118,9 @@ export class ToolsComponent implements OnInit, OnDestroy {
     
     this.backend.saveGame(this.game)
     .subscribe(
-      (response: Response)=> { console.log(response); }
+      (response: Response)=> { 
+        this.notificationsSrv.game.next('Game has been saved!', 'info');
+      }
     );
   }
 
