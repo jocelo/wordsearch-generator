@@ -202,7 +202,7 @@ export class SeasonsComponent implements OnInit, OnDestroy {
       gameForm.value.epiEs,
       'normal',
       [],
-      {'en':[], 'es': []}
+      {'en': [], 'es': []}
     ));
 
     this.backendSrv.saveGame(this.seasons)

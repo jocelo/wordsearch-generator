@@ -45,7 +45,6 @@ export class ToolsComponent implements OnInit, OnDestroy {
     private backend: FirebaseService) { }
 
   ngOnInit() {
-    console.log('episode', this.episode);
     this.wordsAlertMessage = '';
     this.toolsAlertMessage = '';
     this.gameAlertMessage = '';
@@ -115,7 +114,10 @@ export class ToolsComponent implements OnInit, OnDestroy {
   onSaveGrid() {
     const gameGenerated = this.wordSrv.getGameGrid();
     this.episode['grid'][this.mainLang] = gameGenerated;
-    
+    console.log('this is the main language:', this.mainLang);
+    console.log('episode', this.episode);
+    console.log('while game', this.game);
+    debugger;
     this.backend.saveGame(this.game)
     .subscribe(
       (response: Response)=> { 
@@ -126,7 +128,7 @@ export class ToolsComponent implements OnInit, OnDestroy {
 
   onResetGrid() {
     if (confirm('Reset grid to clean state?')) {
-
+      
     }
   }
 

@@ -32,6 +32,7 @@ export class GridComponent implements OnInit, OnDestroy {
     const episodeId = this.route.snapshot.params.episode;
     let grid;
 
+    // this will be removed
     this.backend.getEpisode()
       .subscribe(
         (response: Response ) => {
@@ -47,7 +48,7 @@ export class GridComponent implements OnInit, OnDestroy {
                 console.log(' >> letter', letter);
                 return {
                   label: letter.label,
-                  classes: letter.bgColor
+                  bgColor: letter.bgColor
                 }
               })
             });
@@ -65,7 +66,6 @@ export class GridComponent implements OnInit, OnDestroy {
         console.log('second detection!!! > ', newLang, '<', this.language);
         console.log( this.episode['grid'][this.language] );
         if (!this.episode['grid'][this.language] || this.episode['grid'][this.language].length < 1) {
-          console.log('we need to add the grid');
           this.generateGameGrid();
         } else {
           console.log( this.episode['grid'][this.language] );
