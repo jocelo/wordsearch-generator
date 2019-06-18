@@ -35,6 +35,7 @@ export class GridComponent implements OnInit, OnDestroy {
     console.log('', this.wordSrv.getGameGrid());
 
     // this will be removed
+    /*
     this.backend.getEpisode()
       .subscribe(
         (response: Response ) => {
@@ -49,6 +50,7 @@ export class GridComponent implements OnInit, OnDestroy {
           // this.wordSrv.setGrid(this.gameGrid);
         }
       );
+    */
       
     this.wordSrv.changeInLanguage.subscribe(
       (newLang: string)=>{

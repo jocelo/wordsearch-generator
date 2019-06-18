@@ -58,10 +58,10 @@
     </div>
   </div>
 
-  <div class="col-md-12" *ngIf="episode && episode.words.length > 1">
+  <div class="col-md-12" *ngIf="words && words.length > 1">
     <div class="words-container">
       <div class="btn-group" role="group" 
-        *ngFor="let word of episode.words; let idx = index;" 
+        *ngFor="let word of words; let idx = index;" 
         [ngClass]="{'selected': idx==selectedWordIdx}">
         <button type="button" 
           class="btn btn-dark badge-custom"

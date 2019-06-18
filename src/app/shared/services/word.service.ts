@@ -12,9 +12,9 @@ export class WordService {
 	words: WordModel[] = [];
 	colorHue: number = 0;
 	fontColors: object;
-	gameGrid: string[][];
 	markWordAsUsed = new Subject();
 	changeInLanguage = new Subject();
+	wordsObs = new Subject();
 
 	constructor(private notificationSrv: NotificationsService) {
 		this.fontColors = {
@@ -85,19 +85,14 @@ export class WordService {
 		}
 		return this.fontColors[colorCode];
 	}
+
+	setWords(allWords: WordModel[]) {
+		this.words = allWords;
+	}
 	
 	getWords() {
 		console.log('avout to tget the words::::', this.words);
 		return this.words.slice();
-	}
-
-	getGameGrid() {
-		console.log('this game grid', this.gameGrid);
-		return this.gameGrid;
-	}
-
-	setGrid(grid: any){
-		this.gameGrid = grid;
 	}
 
 	allWordsUsed() {

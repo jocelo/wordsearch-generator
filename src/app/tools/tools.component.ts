@@ -14,8 +14,7 @@ import { WordModel } from '../shared/models/word.model';
   styleUrls: ['./tools.component.css']
 })
 export class ToolsComponent implements OnInit, OnDestroy {
-  wordsList: object[] = [];
-  db: any;
+  words: WordModel[] = [];
 
   //@ViewChild('newWord') newWord: ElementRef;
   //@ViewChild('gameName') gameName: ElementRef;
@@ -26,12 +25,6 @@ export class ToolsComponent implements OnInit, OnDestroy {
   toolsAlertMessage: string;
   gameAlertMessage: string;
   selectedWordIdx: number = -1;
-  seasonId: number = -1;
-  episodeId: number = -1;
-  game: SeasonModel[];
-  season: SeasonModel;
-  episode: EpisodeModel;
-  grid: any;
   mainLang: string = 'en';
   secondLang: string = 'es';
   langSwitch: {};
@@ -46,13 +39,12 @@ export class ToolsComponent implements OnInit, OnDestroy {
     this.wordsAlertMessage = '';
     this.toolsAlertMessage = '';
     this.gameAlertMessage = '';
-    this.wordsList = this.wordSrv.getWords();
-    this.seasonId = this.route.snapshot.params.season;
-    this.episodeId = this.route.snapshot.params.episode;
+
     this.langSwitch = {};
     this.langSwitch[this.mainLang] = this.secondLang;
     this.langSwitch[this.secondLang] = this.mainLang;
 
+    /*
     this.backend.getDB()
       .subscribe(
         (response: Response) => {
@@ -68,6 +60,13 @@ export class ToolsComponent implements OnInit, OnDestroy {
           this.wordSrv.addWords(this.episode['words']);
         }
       );
+    */
+
+    this.wordSrv.wordsObs.subscribe(
+      (wordsList: WordModel[]) => {
+        this.words = wordsList;
+      }
+    );
     
     this.notificationsSrv.direction.subscribe((msg)=>{
       this.toolsAlertMessage = msg;
@@ -90,9 +89,9 @@ export class ToolsComponent implements OnInit, OnDestroy {
 
     this.wordSrv.markWordAsUsed.subscribe(
       (response: object) => {
-        this.episode['words'][response['idx']]['dirty'] = true;
-        this.episode['words'][response['idx']]['start'] = {row: response['row'], col: response['col']};
-        this.episode['words'][response['idx']]['direction'] = this.toolSrv.getDirection();
+        this.words[response['idx']]['dirty'] = true;
+        this.words[response['idx']]['start'] = {row: response['row'], col: response['col']};
+        this.words[response['idx']]['direction'] = this.toolSrv.getDirection();
       }
     );
   }
@@ -109,9 +108,9 @@ export class ToolsComponent implements OnInit, OnDestroy {
   onChangeLanguage(newLang: string) {
     this.mainLang = newLang;
     this.secondLang = this.langSwitch[newLang];
-    this.grid = this.episode['grid'][this.mainLang];
-    this.wordSrv.setLanguage(this.mainLang);
-    this.wordSrv.setGrid(this.grid);
+    // this.grid = this.episode['grid'][this.mainLang];
+    // this.wordSrv.setLanguage(this.mainLang);
+    // this.wordSrv.setGrid(this.grid);
   }
 
   onSaveGrid() {
@@ -122,11 +121,13 @@ export class ToolsComponent implements OnInit, OnDestroy {
     console.log('while game', this.grid);
     debugger;
     this.backend.saveGame(this.game);
+    /*
     .subscribe(
       (response: Response)=> { 
         this.notificationsSrv.game.next({1:'Game has been saved!', 2:'info'});
       }
     );
+    */
   }
 
   onResetGrid() {
