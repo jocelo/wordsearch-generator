@@ -9,9 +9,6 @@ export class EpisodeModel {
 		private es: string,
 		private diff: string,
 		private words: WordModel[],
-		private grid: {
-			'en': [],
-			'es': []
-		}
+		private grid: {}
 	) {}
 }

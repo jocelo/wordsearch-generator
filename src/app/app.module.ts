@@ -14,6 +14,7 @@ import { HttpModule } from '@angular/http';
 import { SeasonsComponent } from './seasons/seasons.component';
 import { AppRouting } from './app-routing.module';
 import { DesignerComponent } from './designer/designer.component';
+import { GameService } from './shared/services/game.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { DesignerComponent } from './designer/designer.component';
     FormsModule,
     AppRouting
   ],
-  providers: [WordService, ToolsService, NotificationsService, FirebaseService],
+  providers: [WordService, ToolsService, NotificationsService, FirebaseService, GameService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

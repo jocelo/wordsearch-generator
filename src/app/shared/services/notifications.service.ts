@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 export class NotificationsService {
 	direction: Subject<string>;
 	word: Subject<string>;
-	game: Subject<string>;
+	game: Subject<object>;
 	categories: Subject<string>;
 
 	constructor() {

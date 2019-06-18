@@ -68,7 +68,7 @@ export class FirebaseService {
 	}
 	
 	saveGame(game: SeasonModel[]) {
-		return this.http.put('https://word-search-933f0.firebaseio.com/seasons.json', game);
+		return this.http.put('https://word-search-933f0.firebaseio.com/seasons/1/episode/2.json', game);
 	}
 
 	saveNewSeason(newSeason: SeasonModel) {

@@ -4,7 +4,6 @@ import { ToolsService } from '../shared/services/tools.service';
 import { NotificationsService } from '../shared/services/notifications.service';
 import { FirebaseService } from '../shared/services/firebase.service';
 import { Response } from '@angular/http';
-import { ActivatedRoute } from '@angular/router';
 import { SeasonModel } from '../shared/models/season.model';
 import { EpisodeModel } from '../shared/models/episode.model';
 import { WordModel } from '../shared/models/word.model';
@@ -32,7 +31,7 @@ export class ToolsComponent implements OnInit, OnDestroy {
   game: SeasonModel[];
   season: SeasonModel;
   episode: EpisodeModel;
-  grid: [string[]];
+  grid: any;
   mainLang: string = 'en';
   secondLang: string = 'es';
   langSwitch: {};
@@ -40,7 +39,6 @@ export class ToolsComponent implements OnInit, OnDestroy {
   constructor(
     private wordSrv: WordService,
     private toolSrv: ToolsService,
-    private route: ActivatedRoute,
     private notificationsSrv: NotificationsService,
     private backend: FirebaseService) { }
 
@@ -59,8 +57,11 @@ export class ToolsComponent implements OnInit, OnDestroy {
       .subscribe(
         (response: Response) => {
           this.game = response.json();
+          
           this.season = this.game[this.seasonId];
           this.episode = this.season['episodes'][this.episodeId];
+          this.grid = this.episode['grid'][this.mainLang];
+          this.wordSrv.setGrid(this.grid);
           this.wordSrv.cleanWordList();
 
           this.wordsList = this.episode['words'];
@@ -81,7 +82,7 @@ export class ToolsComponent implements OnInit, OnDestroy {
       }, 2500);
     });
     this.notificationsSrv.game.subscribe((msg)=>{
-      this.gameAlertMessage = msg;
+      this.gameAlertMessage = msg[1];
       setTimeout(()=>{
         this.gameAlertMessage = '';
       }, 2500);
@@ -108,20 +109,22 @@ export class ToolsComponent implements OnInit, OnDestroy {
   onChangeLanguage(newLang: string) {
     this.mainLang = newLang;
     this.secondLang = this.langSwitch[newLang];
+    this.grid = this.episode['grid'][this.mainLang];
     this.wordSrv.setLanguage(this.mainLang);
+    this.wordSrv.setGrid(this.grid);
   }
 
   onSaveGrid() {
-    const gameGenerated = this.wordSrv.getGameGrid();
-    this.episode['grid'][this.mainLang] = gameGenerated;
-    console.log('this is the main language:', this.mainLang);
-    console.log('episode', this.episode);
-    console.log('while game', this.game);
+    // const gameGenerated = this.wordSrv.getGameGrid();
+    // fucking to work here
+    this.grid = this.wordSrv.getGameGrid();
+    this.episode['grid'][this.mainLang] = this.wordSrv.getGameGrid();
+    console.log('while game', this.grid);
     debugger;
-    this.backend.saveGame(this.game)
+    this.backend.saveGame(this.game);
     .subscribe(
       (response: Response)=> { 
-        this.notificationsSrv.game.next('Game has been saved!', 'info');
+        this.notificationsSrv.game.next({1:'Game has been saved!', 2:'info'});
       }
     );
   }

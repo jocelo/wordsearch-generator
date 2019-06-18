@@ -92,11 +92,11 @@ export class WordService {
 	}
 
 	getGameGrid() {
+		console.log('this game grid', this.gameGrid);
 		return this.gameGrid;
 	}
 
 	setGrid(grid: any){
-		debugger;
 		this.gameGrid = grid;
 	}
 

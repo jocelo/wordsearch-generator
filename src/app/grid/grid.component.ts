@@ -31,6 +31,8 @@ export class GridComponent implements OnInit, OnDestroy {
     const seasonId = this.route.snapshot.params.season;
     const episodeId = this.route.snapshot.params.episode;
     let grid;
+    console.log('init en el grid component,,, si es el segundo, ya sabemos cual es el grid');
+    console.log('', this.wordSrv.getGameGrid());
 
     // this will be removed
     this.backend.getEpisode()
@@ -41,22 +43,10 @@ export class GridComponent implements OnInit, OnDestroy {
           this.episode = grid[seasonId]['episodes'][episodeId];
           this.gameGrid = this.episode['grid'][this.language];
 
-          if (this.gameGrid && this.episode['grid'][this.language].length >0) {
-            this.gameGrid = this.episode['grid'][this.language].map(letters=>{
-              console.log('letters > ',letters);
-              return letters.map((letter)=>{
-                console.log(' >> letter', letter);
-                return {
-                  label: letter.label,
-                  bgColor: letter.bgColor
-                }
-              })
-            });
-
-          } else {
+          if (this.episode['grid'][this.language].length == 0) {
             this.generateGameGrid();
           }
-          this.wordSrv.setGrid(this.gameGrid);
+          // this.wordSrv.setGrid(this.gameGrid);
         }
       );
       
@@ -89,6 +79,10 @@ export class GridComponent implements OnInit, OnDestroy {
     const caca = this.wordSrv.getWholeSelected();
     const direction = this.toolSrv.getDirection();
 
+    debugger;
+    // this.language
+    // this.gameGrid
+
     if (!direction) {
       this.notificationsSrv.direction.next('You need to select a direction.');
       return;
@@ -100,7 +94,7 @@ export class GridComponent implements OnInit, OnDestroy {
     }
 
     if ( this.outOfBounds(word.length, sCol, sRow, direction) ) {
-      this.notificationsSrv.game.next('Nel no cabe');
+      this.notificationsSrv.game.next({1:'Nel no cabe'});
       return;
     }
 
