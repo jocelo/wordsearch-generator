@@ -6,6 +6,7 @@ import { FirebaseService } from '../shared/services/firebase.service';
 import { Response } from '@angular/http';
 import { ActivatedRoute } from '@angular/router';
 import { EpisodeModel } from '../shared/models/episode.model';
+import { GameService } from '../shared/services/game.service';
 
 @Component({
   selector: 'app-grid',
@@ -23,6 +24,7 @@ export class GridComponent implements OnInit, OnDestroy {
   constructor(
     private wordSrv: WordService, 
     private toolSrv: ToolsService,
+    private gameSrv: GameService,
     private notificationsSrv: NotificationsService,
     private backend: FirebaseService,
     private route: ActivatedRoute) { }
@@ -31,8 +33,8 @@ export class GridComponent implements OnInit, OnDestroy {
     const seasonId = this.route.snapshot.params.season;
     const episodeId = this.route.snapshot.params.episode;
     let grid;
-    console.log('init en el grid component,,, si es el segundo, ya sabemos cual es el grid');
-    console.log('', this.wordSrv.getGameGrid());
+    console.log('init en el grid component... si es el segundo, ya sabemos cual es el grid');
+    // console.log('', this.wordSrv.getGameGrid());
 
     // this will be removed
     /*
