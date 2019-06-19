@@ -28,7 +28,6 @@ export class DesignerComponent implements OnInit {
       .subscribe(
         (response)=>{
           const data = response.json();
-          console.log('responded ??', data);
           this.wordService.wordsObs.next(data.words);
           this.gameService.setGrids(data.grid);
         }

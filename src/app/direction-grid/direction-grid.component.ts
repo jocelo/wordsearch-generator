@@ -15,13 +15,11 @@ export class DirectionGridComponent implements OnInit {
 
   ngOnInit() {
     this.direction = 'east';
-    console.log('wird sekected us:', this.wordSelected);
   }
 
   chooseDirection(event: any) {
     if (event.target.nodeName === 'I') {
       this.direction = event.target.dataset.direction;
-      console.log('this.direction', this.direction)
       this.toolSrv.setDirection(this.direction);
     }
   }

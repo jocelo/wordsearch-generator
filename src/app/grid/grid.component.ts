@@ -68,10 +68,17 @@ export class GridComponent implements OnInit, OnDestroy {
         console.log('after the change::', this.episode);
       }
     );
+
+    this.gameSrv.gridChanged.subscribe(
+      (grid) => {
+        this.gameGrid = grid;
+      }
+    );
   }
 
   ngOnDestroy() {
     this.wordSrv.changeInLanguage.unsubscribe();
+    this.gameSrv.gridChanged.unsubscribe();
   }
 
   getRandomLetter() {

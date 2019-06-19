@@ -7,6 +7,7 @@ import { Response } from '@angular/http';
 import { SeasonModel } from '../shared/models/season.model';
 import { EpisodeModel } from '../shared/models/episode.model';
 import { WordModel } from '../shared/models/word.model';
+import { GameService } from '../shared/services/game.service';
 
 @Component({
   selector: 'app-tools',
@@ -32,6 +33,7 @@ export class ToolsComponent implements OnInit, OnDestroy {
   constructor(
     private wordSrv: WordService,
     private toolSrv: ToolsService,
+    private gameSrv: GameService,
     private notificationsSrv: NotificationsService,
     private backend: FirebaseService) { }
 
@@ -132,7 +134,7 @@ export class ToolsComponent implements OnInit, OnDestroy {
 
   onResetGrid() {
     if (confirm('Reset grid to clean state?')) {
-      
+      this.gameSrv.resetGrid();
     }
   }
 
