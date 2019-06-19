@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Response } from '@angular/http';
+import { NotificationsService } from './notifications.service';
+import { FirebaseService } from './firebase.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +14,9 @@ export class GameService {
   rows: number = 11;
   cols: number = 16;
 
-  constructor() {
+  constructor(
+		private backendSrv: FirebaseService,
+		private notificationSrv: NotificationsService) {
     
   }
 
@@ -24,9 +29,20 @@ export class GameService {
 		this.gameGrids = grids;
 		this.gridChanged.next(this.gameGrids[languageKey]);
 	}
-
+	// the idea here is to save ni a different methodn
+	// method below shold only take care of keeping the grid updated
+	// and once the used decides to save
+	// we will easily retrieve the gameGrid active, and it[s current state
+	// and leave the actual backend saving to another method
+	// which by they way might have nothing to do with this one 
 	setGrid(grid: any, languageKey: string){
 		this.gameGrids[languageKey] = grid;
+		this.backendSrv.saveGrid(1,2,'en',grid).subscribe(
+			(response: Response) => {
+				const data = response.json();
+				console.log('coming back from saving', data);
+			}
+		);
 	}
 
 	resetGrid(languageKey: string) {
