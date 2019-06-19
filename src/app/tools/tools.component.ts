@@ -118,11 +118,11 @@ export class ToolsComponent implements OnInit, OnDestroy {
   onSaveGrid() {
     // const gameGenerated = this.wordSrv.getGameGrid();
     // fucking to work here
-    this.grid = this.wordSrv.getGameGrid();
-    this.episode['grid'][this.mainLang] = this.wordSrv.getGameGrid();
-    console.log('while game', this.grid);
-    debugger;
-    this.backend.saveGame(this.game);
+    //this.gameSrv.getGameGrid();
+    //this.episode['grid'][this.mainLang] = this.wordSrv.getGameGrid();
+    //console.log('while game', this.grid);
+    //debugger;
+    //this.backend.saveGame(this.game);
     /*
     .subscribe(
       (response: Response)=> { 
@@ -134,7 +134,7 @@ export class ToolsComponent implements OnInit, OnDestroy {
 
   onResetGrid() {
     if (confirm('Reset grid to clean state?')) {
-      this.gameSrv.resetGrid();
+      this.gameSrv.resetGrid('en');
     }
   }
 

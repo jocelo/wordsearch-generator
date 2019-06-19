@@ -25,6 +25,10 @@ export class GameService {
 		this.gridChanged.next(this.gameGrids[languageKey]);
 	}
 
+	setGrid(grid: any, languageKey: string){
+		this.gameGrids[languageKey] = grid;
+	}
+
 	resetGrid(languageKey: string) {
 		this.gameGrids[languageKey] = this.generateGameGrid();
 		this.gridChanged.next(this.gameGrids[languageKey]);
