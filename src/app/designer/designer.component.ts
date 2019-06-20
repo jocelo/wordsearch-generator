@@ -4,6 +4,7 @@ import { FirebaseService } from '../shared/services/firebase.service';
 import { WordService } from '../shared/services/word.service';
 import { GameService } from '../shared/services/game.service';
 import { NotificationsService } from '../shared/services/notifications.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-designer',
@@ -14,6 +15,7 @@ export class DesignerComponent implements OnInit, OnDestroy {
   seasonId: number = -1;
   episodeId: number = -1;
   languageKey: string = 'en';
+  gameSavedObs: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,12 +39,18 @@ export class DesignerComponent implements OnInit, OnDestroy {
         }
       )
 
+      this.gameSavedObs = this.notificationSrv.gameSaved.subscribe(
+        (data) => {
+          console.log('!!!!'+data);
+        }
+      );
+
     //this.notificationSrv.gameSaved().subscribe(
     //);
   }
 
   ngOnDestroy() {
-
+    //this.gameSavedObs.unsubscribe();
   }
 
 }

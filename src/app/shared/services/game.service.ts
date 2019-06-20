@@ -29,23 +29,26 @@ export class GameService {
 	set episodeId(value: number) { this.activeEpisode = value; }
 
 	get gameGrid() { return this.activeGrid; }
+	set gameGrid(grid: any) {
+		console.log('what the actual fuck', grid);
+		this.activeGrid = grid;
+	}
 
 	setGrids(grids: any, languageKey: string = 'en'){
 		this.gameGrids = grids;
 		this.activeGrid = grids[languageKey];
 		this.gridChanged.next(this.activeGrid);
 	}
-	// now this method should take care of updating the newly selected word and apply 
-	// the word into the grid
-	// once that is done, we just need to sumbmit the observable.next so
-	// our front end catched up the change and can react to it
-	// nothing has been saved yet... saving function will be taken care later
-	// I' pretty sure with all this the logic will be cleaner
-	// and less dependencies will exists
-	set gameGrid(grid: any) {
-		console.log('what the actual fuck', grid);
-		this.activeGrid = grid;
+
+	save() {
+		this.backendSrv.saveGames(this.activeSeason, this.activeEpisode, this.gameGrids).subscribe(
+			(response: Response) => {
+				console.log(response);
+				this.notificationSrv.gameSaved.next('shaved!!');
+			}
+		);
 	}
+
 	/*
 	updateGrid(grid: any){
 		console.log('save grid change');

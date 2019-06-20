@@ -114,7 +114,7 @@ export class ToolsComponent implements OnInit, OnDestroy {
   }
 
   onSaveGrid() {
-    // this.gameSrv.setGrid();
+    this.gameSrv.save();
     // const gameGenerated = this.wordSrv.getGameGrid();
     // fucking to work here
     //this.gameSrv.getGameGrid();
