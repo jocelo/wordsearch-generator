@@ -110,12 +110,11 @@ export class ToolsComponent implements OnInit, OnDestroy {
   onChangeLanguage(newLang: string) {
     this.mainLang = newLang;
     this.secondLang = this.langSwitch[newLang];
-    // this.grid = this.episode['grid'][this.mainLang];
-    // this.wordSrv.setLanguage(this.mainLang);
-    // this.wordSrv.setGrid(this.grid);
+    this.gameSrv.setActiveGrid(newLang);
   }
 
   onSaveGrid() {
+    // this.gameSrv.setGrid();
     // const gameGenerated = this.wordSrv.getGameGrid();
     // fucking to work here
     //this.gameSrv.getGameGrid();

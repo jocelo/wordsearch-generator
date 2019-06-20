@@ -67,25 +67,29 @@ export class FirebaseService {
 		return this.http.get('https://word-search-933f0.firebaseio.com/seasons.json');
 	}
 	
-	saveGame(game: SeasonModel[]) {
-		return this.http.put('https://word-search-933f0.firebaseio.com/seasons/1/episode/2.json', game);
+	// todo, remove hardcoded values
+	saveSeason(game: SeasonModel[], seasonId: number, episodeId: number) {
+		return this.http.put(`https://word-search-933f0.firebaseio.com/seasons/${seasondId}/episode/${episodeId}.json`, game);
 	}
 	
-	saveGrid(seasonId:number = 1, episodeId: number = 2, languageKey: string = 'en', grid: any) {
+	// todo remove hardcoded values
+	saveGrid(seasonId:number = -1, episodeId: number = -1, languageKey: string = 'en', grid: any) {
 		return this.http.put(`https://word-search-933f0.firebaseio.com/seasons/${seasonId}/episode/${episodeId}/grid/${languageKey}.json`, grid);
 	}
 
 	saveNewSeason(newSeason: SeasonModel) {
-		return this.saveGame([newSeason, ...this.cached]);
+		// return this.saveSeason([newSeason, ...this.cached]);
 	}
 
 	deleteSeason(idx: number) {
 		this.cached.splice(idx, 1);
+		/*
 		this.saveGame(this.cached).subscribe(
 			(response: Response) => {
 				this.cached = response.json();
 				this.refreshCachedData.next(this.cached);
 			}
 		);
+		*/
 	}
 }

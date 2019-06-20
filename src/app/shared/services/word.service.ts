@@ -54,6 +54,7 @@ export class WordService {
 	}
 
 	getWholeSelected() {
+		console.log('this.words', this.words, 'this.selectedIdx', this.selectedIdx);
 		return this.words[this.selectedIdx];
 	}
 
@@ -93,6 +94,11 @@ export class WordService {
 	getWords() {
 		console.log('avout to tget the words::::', this.words);
 		return this.words.slice();
+	}
+
+	set allWords(words: any) {
+		this.words = words;
+		this.wordsObs.next(this.words);
 	}
 
 	allWordsUsed() {

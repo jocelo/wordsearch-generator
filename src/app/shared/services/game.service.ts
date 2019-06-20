@@ -10,6 +10,8 @@ import { FirebaseService } from './firebase.service';
 export class GameService {
   gameGrids: any;
 	activeGrid: any;
+	activeSeason: number;
+	activeEpisode: number;
 	gridChanged = new Subject();
   rows: number = 11;
   cols: number = 16;
@@ -18,31 +20,44 @@ export class GameService {
 		private backendSrv: FirebaseService,
 		private notificationSrv: NotificationsService) {
     
-  }
-
-	getGameGrid(langKey: string) {
-		console.log('this game grid', this.gameGrids[langKey]);
-		return this.activeGrid;
 	}
+
+	get seasonId() { return this.activeSeason; }
+	set seasonId(value: number) { this.activeSeason = value; }
+
+	get episodeId() { return this.activeEpisode; }
+	set episodeId(value: number) { this.activeEpisode = value; }
+
+	get gameGrid() { return this.activeGrid; }
 
 	setGrids(grids: any, languageKey: string = 'en'){
 		this.gameGrids = grids;
-		this.gridChanged.next(this.gameGrids[languageKey]);
+		this.activeGrid = grids[languageKey];
+		this.gridChanged.next(this.activeGrid);
 	}
-	// the idea here is to save ni a different methodn
-	// method below shold only take care of keeping the grid updated
-	// and once the used decides to save
-	// we will easily retrieve the gameGrid active, and it[s current state
-	// and leave the actual backend saving to another method
-	// which by they way might have nothing to do with this one 
-	setGrid(grid: any, languageKey: string){
-		this.gameGrids[languageKey] = grid;
-		this.backendSrv.saveGrid(1,2,'en',grid).subscribe(
-			(response: Response) => {
-				const data = response.json();
-				console.log('coming back from saving', data);
-			}
-		);
+	// now this method should take care of updating the newly selected word and apply 
+	// the word into the grid
+	// once that is done, we just need to sumbmit the observable.next so
+	// our front end catched up the change and can react to it
+	// nothing has been saved yet... saving function will be taken care later
+	// I' pretty sure with all this the logic will be cleaner
+	// and less dependencies will exists
+	set gameGrid(grid: any) {
+		console.log('what the actual fuck', grid);
+		this.activeGrid = grid;
+	}
+	/*
+	updateGrid(grid: any){
+		console.log('save grid change');
+		this.activeGrid = grid;
+		// no need to notify the front again... the change is already done in the grid in store-front
+		debugger;
+	}
+	*/
+
+	setActiveGrid(languageKey: string) {
+		this.activeGrid = this.gameGrids[languageKey];
+		this.gridChanged.next(this.activeGrid);
 	}
 
 	resetGrid(languageKey: string) {

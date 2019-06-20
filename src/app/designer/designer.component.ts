@@ -30,14 +30,15 @@ export class DesignerComponent implements OnInit, OnDestroy {
       .subscribe(
         (response)=>{
           const data = response.json();
-          this.wordService.wordsObs.next(data.words);
+          this.wordService.allWords = data.words;
           this.gameService.setGrids(data.grid);
+          this.gameService.seasonId = this.seasonId;
+          this.gameService.episodeId = this.episodeId;
         }
       )
 
-    this.notificationSrv.gameSaved().subscribe(
-      
-    );
+    //this.notificationSrv.gameSaved().subscribe(
+    //);
   }
 
   ngOnDestroy() {

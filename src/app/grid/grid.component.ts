@@ -90,10 +90,6 @@ export class GridComponent implements OnInit, OnDestroy {
     const caca = this.wordSrv.getWholeSelected();
     const direction = this.toolSrv.getDirection();
 
-    debugger;
-    // this.language
-    // this.gameGrid
-
     if (!direction) {
       this.notificationsSrv.direction.next('You need to select a direction.');
       return;
@@ -109,10 +105,12 @@ export class GridComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (caca['used']) {
+    console.log('caca', caca);
+
+    // if (caca['used']) {
       //this.notificationsSrv.word.next('Word alredy used.');
       //return;
-    }
+    // }
 
     if (word) {
       const prevState = this.wordSrv.getPreviousState();
@@ -137,8 +135,7 @@ export class GridComponent implements OnInit, OnDestroy {
       }
     } // if a word is selected 
 
-    this.wordSrv.setGrid(this.gameGrid);
-
+    this.gameSrv.gameGrid = this.gameGrid;
     this.wordSrv.markAsUsed(sCol, sRow);
 
   } // onCellClicked
