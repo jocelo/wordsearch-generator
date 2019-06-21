@@ -42,6 +42,8 @@ export class DesignerComponent implements OnInit, OnDestroy {
       this.gameSavedObs = this.notificationSrv.gameSaved.subscribe(
         (data) => {
           console.log('!!!!'+data);
+          // TODO make the animation from saving overlay here
+          // show the overlay with the status
         }
       );
 

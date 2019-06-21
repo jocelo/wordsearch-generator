@@ -30,7 +30,6 @@ export class GameService {
 
 	get gameGrid() { return this.activeGrid; }
 	set gameGrid(grid: any) {
-		console.log('what the actual fuck', grid);
 		this.activeGrid = grid;
 	}
 
@@ -43,20 +42,10 @@ export class GameService {
 	save() {
 		this.backendSrv.saveGames(this.activeSeason, this.activeEpisode, this.gameGrids).subscribe(
 			(response: Response) => {
-				console.log(response);
 				this.notificationSrv.gameSaved.next('shaved!!');
 			}
 		);
 	}
-
-	/*
-	updateGrid(grid: any){
-		console.log('save grid change');
-		this.activeGrid = grid;
-		// no need to notify the front again... the change is already done in the grid in store-front
-		debugger;
-	}
-	*/
 
 	setActiveGrid(languageKey: string) {
 		this.activeGrid = this.gameGrids[languageKey];
@@ -66,6 +55,7 @@ export class GameService {
 	resetGrid(languageKey: string) {
 		this.gameGrids[languageKey] = this.generateGameGrid();
 		this.gridChanged.next(this.gameGrids[languageKey]);
+		// TODO need to clean up the words
 	}
 
   private generateGameGrid() {

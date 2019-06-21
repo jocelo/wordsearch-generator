@@ -91,14 +91,19 @@ export class WordService {
 		this.words = allWords;
 	}
 	
-	getWords() {
-		console.log('avout to tget the words::::', this.words);
+	get getWords() {
 		return this.words.slice();
 	}
 
 	set allWords(words: any) {
 		this.words = words;
 		this.wordsObs.next(this.words);
+	}
+
+	resetWords() {
+		this.words.forEach((word)=>{
+			word.dirty = false;
+		});
 	}
 
 	allWordsUsed() {

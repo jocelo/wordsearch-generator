@@ -115,25 +115,18 @@ export class ToolsComponent implements OnInit, OnDestroy {
 
   onSaveGrid() {
     this.gameSrv.save();
-    // const gameGenerated = this.wordSrv.getGameGrid();
-    // fucking to work here
-    //this.gameSrv.getGameGrid();
-    //this.episode['grid'][this.mainLang] = this.wordSrv.getGameGrid();
-    //console.log('while game', this.grid);
-    //debugger;
-    //this.backend.saveGame(this.game);
-    /*
-    .subscribe(
-      (response: Response)=> { 
-        this.notificationsSrv.game.next({1:'Game has been saved!', 2:'info'});
-      }
-    );
-    */
   }
 
   onResetGrid() {
     if (confirm('Reset grid to clean state?')) {
       this.gameSrv.resetGrid('en');
+      this.wordSrv.resetWords();
+      this.backend.saveWords(this.gameSrv.seasonId, this.gameSrv.episodeId, this.wordSrv.getWords).subscribe(
+        (response: Response) => {
+          const data = response.json();
+          console.log('data >>> ', data);
+        }
+      );
     }
   }
 

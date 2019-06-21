@@ -79,6 +79,12 @@ export class FirebaseService {
 		return this.http.put(`https://word-search-933f0.firebaseio.com/seasons/${seasonId}/episodes/${episodeId}/grid.json`, grid);
 	}
 
+	saveWords(seasonId:number = -1, episodeId: number = -1, words: any) {
+		console.log('!!saveWords!!', words);
+		console.log('put iot here:', `https://word-search-933f0.firebaseio.com/seasons/${seasonId}/episode/${episodeId}/words.json`);
+		return this.http.put(`https://word-search-933f0.firebaseio.com/seasons/${seasonId}/episode/${episodeId}/words.json`, words);
+	}
+
 	saveNewSeason(newSeason: SeasonModel) {
 		// return this.saveSeason([newSeason, ...this.cached]);
 	}
