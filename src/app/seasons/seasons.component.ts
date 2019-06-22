@@ -216,6 +216,8 @@ export class SeasonsComponent implements OnInit, OnDestroy {
 
     this.backendSrv.saveGame(this.seasons)
       .subscribe((response: Response)=>{
+        console.log('this.activeSeason', this.activeSeason);
+        this.episodes = this.activeSeason['episodes'];
         this.triggerAlert('episode');
       });
   }
@@ -285,12 +287,18 @@ export class SeasonsComponent implements OnInit, OnDestroy {
     console.log('how many so far?', this.activeEpisode['words']['en'].length);
     console.log(colorCode, 'and `the color is:', this.wordSrv.getHslColor(colorCode));
 
-    this.activeEpisode['words'].push(new WordModel(
-      wordForm.value.wordEs,
+    this.activeEpisode['words']['en'].push(new WordModel(
       wordForm.value.wordEn,
       colorCode,
       fontColor,
       false,
+      false
+    ));
+
+    this.activeEpisode['words']['es'].push(new WordModel(
+      wordForm.value.wordEs,
+      colorCode,
+      fontColor,
       false,
       false
     ));
@@ -316,6 +324,12 @@ export class SeasonsComponent implements OnInit, OnDestroy {
           (response: Response) => {
             console.log('test', response.json());
             this.seasons = response.json();
+            this.showAddSeason = false;
+            this.showAddEpisode = false;
+            this.showAddWord = false;
+            this.selectedSeason = -1;
+            this.selectedEpisode = -1;
+            this.selectedWord = -1;
           }
         );
     }
