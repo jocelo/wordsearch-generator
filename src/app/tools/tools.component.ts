@@ -115,18 +115,17 @@ export class ToolsComponent implements OnInit, OnDestroy {
 
   onSaveGrid() {
     this.gameSrv.save();
+    this.backend.saveWords(this.gameSrv.seasonId, this.gameSrv.episodeId, this.wordSrv.getWords).subscribe(
+      (response: Response) => {
+        const data = response.json();
+      }
+    );
   }
 
   onResetGrid() {
     if (confirm('Reset grid to clean state?')) {
       this.gameSrv.resetGrid('en');
       this.wordSrv.resetWords();
-      this.backend.saveWords(this.gameSrv.seasonId, this.gameSrv.episodeId, this.wordSrv.getWords).subscribe(
-        (response: Response) => {
-          const data = response.json();
-          console.log('data >>> ', data);
-        }
-      );
     }
   }
 

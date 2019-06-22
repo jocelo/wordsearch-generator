@@ -148,9 +148,9 @@
     <h5>{{activeEpisode.en}} / {{activeEpisode.es}}</h5>
     <div class="alert alert-success" role="alert" *ngIf="showWordAlert"> {{alertMsg}} </div>
     <div class="btn-group" role="group" *ngFor="let word of activeWordList; let idx = index;">
-      <button type="button" class="btn btn-dark">{{word.en}}</button>
+      <button type="button" class="btn btn-dark">{{word.label}}</button>
       <button type="button" class="btn btn-light btn-border action-edit">
-        <span class="inner-text">{{word.es}}</span> 
+        <span class="inner-text">{{secondWordList[idx].label}}</span> 
         <i class="fas fa-pencil-alt" (click)="onEditWord(idx); $event.stopPropagation();"></i>
       </button>
     </div>

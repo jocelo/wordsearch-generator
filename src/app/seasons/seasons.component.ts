@@ -23,6 +23,7 @@ export class SeasonsComponent implements OnInit, OnDestroy {
   activeSeason: SeasonModel;
   activeEpisode: EpisodeModel;
   activeWordList: any;
+  secondWordList: any;
   activeWord: any;
   selectedSeason: number = -1;
   selectedEpisode: number = -1;
@@ -153,10 +154,14 @@ export class SeasonsComponent implements OnInit, OnDestroy {
     this.selectedEpisode = episodeId;
     this.activeEpisode = this.activeSeason['episodes'][episodeId];
     if (!this.activeEpisode['words']) {
-      this.activeEpisode['words'] = [];
+      this.activeEpisode['words'] = {
+        en: [],
+        es: []
+      };
     }
 
-    this.activeWordList = this.activeEpisode['words'];
+    this.activeWordList = this.activeEpisode['words']['en'];
+    this.secondWordList = this.activeEpisode['words']['es'];
   }
 
   addNewEpisode() { 
@@ -177,10 +182,14 @@ export class SeasonsComponent implements OnInit, OnDestroy {
     this.activeEpisode = this.activeSeason['episodes'][episodeId];
     
     if (!this.activeEpisode['words']) {
-      this.activeEpisode['words'] = []
+      this.activeEpisode['words'] = {
+        en: [],
+        es: []
+      }
     }
 
-    this.activeWordList = this.activeEpisode['words'];
+    this.activeWordList = this.activeEpisode['words']['en'];
+    this.secondWordList = this.activeEpisode['words']['es'];
     
     this.episodeForm.setValue({
       'epiTitle': this.activeEpisode['title'],
@@ -201,7 +210,7 @@ export class SeasonsComponent implements OnInit, OnDestroy {
       gameForm.value.epiEn,
       gameForm.value.epiEs,
       'normal',
-      [],
+      {'en': [], 'es': []},
       {'en': [], 'es': []}
     ));
 
@@ -271,9 +280,9 @@ export class SeasonsComponent implements OnInit, OnDestroy {
   }
 
   onSaveNewWord(wordForm: NgForm) {
-    const colorCode = this.wordSrv.getHslColor(this.activeEpisode['words'].length * 30),
-      fontColor = this.wordSrv.getFontColor(this.activeEpisode['words'].length * 30);
-    console.log('how many so far?', this.activeEpisode['words'].length);
+    const colorCode = this.wordSrv.getHslColor(this.activeEpisode['words']['en'].length * 30),
+      fontColor = this.wordSrv.getFontColor(this.activeEpisode['words']['en'].length * 30);
+    console.log('how many so far?', this.activeEpisode['words']['en'].length);
     console.log(colorCode, 'and `the color is:', this.wordSrv.getHslColor(colorCode));
 
     this.activeEpisode['words'].push(new WordModel(

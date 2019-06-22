@@ -33,18 +33,32 @@ export class FirebaseService {
 						'en': 'Basic Colors',
 						'es': 'Colores Basicos',
 						'diff': 'normal',
-						'words': [
-							{ 'en': 'red', 'es': 'rojo', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'touched': false, 'dirty': false, 'active': false },
-							{ 'en': 'blue', 'es': 'azul', 'bgColor':'rgba(255,255,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'touched': false, 'dirty': false, 'active': false },
-							{ 'en': 'green', 'es': 'verde', 'bgColor':'rgba(0,255,255,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'touched': false, 'dirty': false, 'active': false },
-							{ 'en': 'yellow', 'es': 'amarillo', 'bgColor':'rgba(255,125,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'touched': false, 'dirty': false, 'active': false },
-							{ 'en': 'purple', 'es': 'morado', 'bgColor':'rgba(0,255,125,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'touched': false, 'dirty': false, 'active': false },
-							{ 'en': 'orange', 'es': 'naranja', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'touched': false, 'dirty': false, 'active': false },
-							{ 'en': 'gray', 'es': 'gris', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'touched': false, 'dirty': false, 'active': false },
-							{ 'en': 'white', 'es': 'blanco', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'touched': false, 'dirty': false, 'active': false },
-							{ 'en': 'black', 'es': 'negro', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'touched': false, 'dirty': false, 'active': false },
-							{ 'en': 'brown', 'es': 'cafe', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'touched': false, 'dirty': false, 'active': false }
-						],
+						'words': {
+							'en': [
+								{ 'label': 'red', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'blue', 'bgColor':'rgba(255,255,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'green', 'bgColor':'rgba(0,255,255,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'yellow', 'bgColor':'rgba(255,125,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'purple', 'bgColor':'rgba(0,255,125,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'orange', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'gray', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'white', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'black', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'brown', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false }
+							],
+							'es': [
+								{ 'label': 'rojo', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'azul', 'bgColor':'rgba(255,255,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'verde', 'bgColor':'rgba(0,255,255,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'amarillo', 'bgColor':'rgba(255,125,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'morado', 'bgColor':'rgba(0,255,125,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'naranja', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'gris', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'blanco', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'negro', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false },
+								{ 'label': 'cafe', 'bgColor':'rgba(255,0,0,0.5)' , 'fontColor':'rgba(255, 255, 255, 1)', 'dirty': false, 'active': false }
+							]
+						},
 						'grid': {
 							'en': '',
 							'es': ''
@@ -81,12 +95,11 @@ export class FirebaseService {
 
 	saveWords(seasonId:number = -1, episodeId: number = -1, words: any) {
 		console.log('!!saveWords!!', words);
-		console.log('put iot here:', `https://word-search-933f0.firebaseio.com/seasons/${seasonId}/episode/${episodeId}/words.json`);
-		return this.http.put(`https://word-search-933f0.firebaseio.com/seasons/${seasonId}/episode/${episodeId}/words.json`, words);
+		return this.http.put(`https://word-search-933f0.firebaseio.com/seasons/${seasonId}/episodes/${episodeId}/words.json`, words);
 	}
 
 	saveNewSeason(newSeason: SeasonModel) {
-		// return this.saveSeason([newSeason, ...this.cached]);
+		return this.http.put(`https://word-search-933f0.firebaseio.com/seasons.json`, [...this.cached, newSeason]);
 	}
 
 	deleteSeason(idx: number) {
