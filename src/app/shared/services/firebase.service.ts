@@ -83,7 +83,7 @@ export class FirebaseService {
 	
 	// todo, remove hardcoded values
 	saveSeason(game: SeasonModel[], seasonId: number, episodeId: number) {
-		return this.http.put(`https://word-search-933f0.firebaseio.com/seasons/${seasondId}/episode/${episodeId}.json`, game);
+		return this.http.put(`https://word-search-933f0.firebaseio.com/seasons/${seasonId}/episode/${episodeId}.json`, game);
 	}
 
 	saveGame(wholeGame) {

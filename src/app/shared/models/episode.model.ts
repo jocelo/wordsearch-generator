@@ -13,8 +13,8 @@ export class EpisodeModel {
 			es: WordModel[]
 		},
 		private grid: {
-			en: [],
-			es: []
+			en: string[],
+			es: string[]
 		}
 	) {}
 }

@@ -30,40 +30,15 @@ export class GridComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-
-
-    // console.log('', this.wordSrv.getGameGrid());
-
-    // this will be removed
-    /*
-    this.backend.getEpisode()
-      .subscribe(
-        (response: Response ) => {
-          grid = response.json();
-          this.language = this.wordSrv.getLanguage();
-          this.episode = grid[seasonId]['episodes'][episodeId];
-          this.gameGrid = this.episode['grid'][this.language];
-
-          if (this.episode['grid'][this.language].length == 0) {
-            this.generateGameGrid();
-          }
-          // this.wordSrv.setGrid(this.gameGrid);
-        }
-      );
-    */
-      
     this.wordSrv.changeInLanguage.subscribe(
       (newLang: string)=>{
         this.language = newLang;
-        console.log('second detection!!! > ', newLang, '<', this.language);
-        console.log( this.episode['grid'][this.language] );
+
         if (!this.episode['grid'][this.language] || this.episode['grid'][this.language].length < 1) {
-          this.generateGameGrid();
+          // this.generateGameGrid();
         } else {
-          console.log( this.episode['grid'][this.language] );
           this.gameGrid = this.episode['grid'][this.language];
         }
-        console.log('after the change::', this.episode);
       }
     );
 

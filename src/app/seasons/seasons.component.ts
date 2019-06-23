@@ -290,8 +290,6 @@ export class SeasonsComponent implements OnInit, OnDestroy {
   onSaveNewWord(wordForm: NgForm) {
     const colorCode = this.wordSrv.getHslColor(this.activeEpisode['words']['en'].length * 30),
       fontColor = this.wordSrv.getFontColor(this.activeEpisode['words']['en'].length * 30);
-    console.log('how many so far?', this.activeEpisode['words']['en'].length);
-    console.log(colorCode, 'and `the color is:', this.wordSrv.getHslColor(colorCode));
 
     this.activeEpisode['words']['en'].push(new WordModel(
       wordForm.value.wordEn,
