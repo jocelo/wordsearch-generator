@@ -34,6 +34,10 @@ export class GameService {
 	}
 
 	setGrids(grids: any, languageKey: string = 'en'){
+		if (!grids[languageKey]) {
+			console.log('no hay nada!');
+			grids[languageKey] = this.generateGameGrid();
+		}
 		this.gameGrids = grids;
 		this.activeGrid = grids[languageKey];
 		this.gridChanged.next(this.activeGrid);

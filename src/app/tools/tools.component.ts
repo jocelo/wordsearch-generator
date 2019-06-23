@@ -46,24 +46,6 @@ export class ToolsComponent implements OnInit, OnDestroy {
     this.langSwitch[this.mainLang] = this.secondLang;
     this.langSwitch[this.secondLang] = this.mainLang;
 
-    /*
-    this.backend.getDB()
-      .subscribe(
-        (response: Response) => {
-          this.game = response.json();
-          
-          this.season = this.game[this.seasonId];
-          this.episode = this.season['episodes'][this.episodeId];
-          this.grid = this.episode['grid'][this.mainLang];
-          this.wordSrv.setGrid(this.grid);
-          this.wordSrv.cleanWordList();
-
-          this.wordsList = this.episode['words'];
-          this.wordSrv.addWords(this.episode['words']);
-        }
-      );
-    */
-
     this.wordSrv.wordsObs.subscribe(
       (wordsList: WordModel[]) => {
         this.words = wordsList;
@@ -91,9 +73,9 @@ export class ToolsComponent implements OnInit, OnDestroy {
 
     this.wordSrv.markWordAsUsed.subscribe(
       (response: object) => {
-        this.words[response['idx']]['dirty'] = true;
-        this.words[response['idx']]['start'] = {row: response['row'], col: response['col']};
-        this.words[response['idx']]['direction'] = this.toolSrv.getDirection();
+        this.words[this.mainLang][response['idx']]['dirty'] = true;
+        this.words[this.mainLang][response['idx']]['start'] = {row: response['row'], col: response['col']};
+        this.words[this.mainLang][response['idx']]['direction'] = this.toolSrv.getDirection();
       }
     );
   }
@@ -102,8 +84,8 @@ export class ToolsComponent implements OnInit, OnDestroy {
     
   }
 
-  onSelectWord(word: WordModel, idx: number) {
-    this.wordSrv.setSelected(word[this.mainLang], idx);
+  onSelectWord(word: any, idx: number) {
+    this.wordSrv.setSelected(word.label, idx);
     this.selectedWordIdx = idx;
   }
 

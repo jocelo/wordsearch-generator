@@ -30,10 +30,8 @@ export class GridComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    const seasonId = this.route.snapshot.params.season;
-    const episodeId = this.route.snapshot.params.episode;
-    let grid;
-    console.log('init en el grid component... si es el segundo, ya sabemos cual es el grid');
+
+
     // console.log('', this.wordSrv.getGameGrid());
 
     // this will be removed
@@ -106,6 +104,7 @@ export class GridComponent implements OnInit, OnDestroy {
     }
 
     console.log('caca', caca);
+    console.log('word', word);
 
     // if (caca['used']) {
       //this.notificationsSrv.word.next('Word alredy used.');
@@ -114,12 +113,13 @@ export class GridComponent implements OnInit, OnDestroy {
 
     if (word) {
       const prevState = this.wordSrv.getPreviousState();
+      console.log('prev state', prevState);
       if (prevState) {
         prevState.forEach((item)=>{
           this.gameGrid[item['row']][item['col']] = item['label'];
         });
       }
-      const wordForSplit = word.split('');
+      const wordForSplit = word.toUpperCase().split('');
       let nextCoord = {
         row: sRow,
         col: sCol
@@ -203,16 +203,4 @@ export class GridComponent implements OnInit, OnDestroy {
     }
   }
 
-  private generateGameGrid() {
-    this.gameGrid = [];
-    for (let i=0 ; i<this.rows.length ; i++ ) {
-      this.gameGrid.push([]);
-      for (let j=0 ; j<this.cols.length ; j++ ) {
-        this.gameGrid[i][j] = {
-          label: this.getRandomLetter(),
-          classes: []
-        };
-      }
-    }
-  }
 }

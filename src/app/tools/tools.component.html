@@ -58,23 +58,23 @@
     </div>
   </div>
 
-  <div class="col-md-12" *ngIf="words && words.length > 1">
+  <div class="col-md-12" *ngIf="words.en && words.en.length > 1">
     <div class="words-container">
       <div class="btn-group" role="group" 
-        *ngFor="let word of words; let idx = index;" 
+        *ngFor="let word of words.en; let idx = index;" 
         [ngClass]="{'selected': idx==selectedWordIdx}">
         <button type="button" 
           class="btn btn-dark badge-custom"
           [style.background-color]="word.bgColor" 
           [style.color]="word.fontColor"
           (click)="onSelectWord(word, idx)">
-          {{word[mainLang]}}
+          {{word.label}}
           <div 
             [ngClass]="(!word.dirty && idx !== selectedWordIdx) ? 'not-used' : ''"
             class="curtain"></div>
         </button>
         <button type="button" class="btn btn-light badge-custom btn-border" disabled>
-            {{word[secondLang]}}
+            {{words.es[idx].label}}
             <div 
             [ngClass]="{'not-used': !word.dirty && idx !== selectedWordIdx }"
             class="curtain"></div>

@@ -2,6 +2,7 @@
   <div class="grid-col" *ngFor="let cell of cols, let j=index;">{{grid[i][j]}}</div>
 </div> -->
 
+
 <div class="grid-row" *ngFor="let line of gameGrid; let i = index;">
   <div *ngFor="let column of line; let j = index;"
     class="grid-col"

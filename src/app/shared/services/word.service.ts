@@ -44,6 +44,9 @@ export class WordService {
 	}
 
 	setSelected(word: string, idx: number): void {
+		console.log('setSelected');
+		console.log('word', word);
+		console.log('idx', idx);
 		this.selectedWord = word;
 		this.selectedIdx = idx;
 		this.backup = [];
@@ -54,8 +57,8 @@ export class WordService {
 	}
 
 	getWholeSelected() {
-		console.log('this.words', this.words, 'this.selectedIdx', this.selectedIdx);
-		return this.words[this.selectedIdx];
+		console.log('this.words', this.words, 'this.selectedIdx', this.selectedIdx, 'languageInUse', this.languageInUse);
+		return this.words[this.languageInUse][this.selectedIdx];
 	}
 
 	markAsUsed(col: number, row: number) {
