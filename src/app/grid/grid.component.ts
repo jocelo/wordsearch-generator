@@ -33,7 +33,12 @@ export class GridComponent implements OnInit, OnDestroy {
     this.wordSrv.changeInLanguage.subscribe(
       (newLang: string)=>{
         this.language = newLang;
-        this.gameGrid = this.episode['grid'][this.language];
+
+        if (!this.episode['grid'][this.language] || this.episode['grid'][this.language].length < 1) {
+          // this.generateGameGrid();
+        } else {
+          this.gameGrid = this.episode['grid'][this.language];
+        }
       }
     );
 
