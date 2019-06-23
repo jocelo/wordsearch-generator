@@ -81,7 +81,7 @@ export class WordService {
 		return backups;
 	}
 
-  getHslColor(colorHue: string) {
+  getHslColor(colorHue: number): string {
     return 'hsla('+colorHue+', 100%, 50%, 0.8)';
 	}
 
