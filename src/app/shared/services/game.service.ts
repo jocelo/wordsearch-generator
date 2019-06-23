@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { Response } from '@angular/http';
 import { NotificationsService } from './notifications.service';
 import { FirebaseService } from './firebase.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,6 @@ export class GameService {
   constructor(
 		private backendSrv: FirebaseService,
 		private notificationSrv: NotificationsService) {
-    
 	}
 
 	get seasonId() { return this.activeSeason; }
@@ -34,10 +34,11 @@ export class GameService {
 	}
 
 	setGrids(grids: any, languageKey: string = 'en'){
-		if (!grids[languageKey]) {
-			console.log('no hay nada!');
-			grids[languageKey] = this.generateGameGrid();
-		}
+		['en','es'].forEach((lang)=>{
+			if (!grids[lang]) {
+				grids[lang] = this.generateGameGrid();
+			}
+		});
 		this.gameGrids = grids;
 		this.activeGrid = grids[languageKey];
 		this.gridChanged.next(this.activeGrid);

@@ -44,12 +44,14 @@ export class WordService {
 	}
 
 	setSelected(word: string, idx: number): void {
-		console.log('setSelected');
-		console.log('word', word);
-		console.log('idx', idx);
 		this.selectedWord = word;
 		this.selectedIdx = idx;
 		this.backup = [];
+	}
+
+	removeSelected() {
+		this.selectedWord = '';
+		this.selectedIdx = -1;
 	}
 
 	getSelected(): string {
@@ -91,11 +93,13 @@ export class WordService {
 	}
 
 	setWords(allWords: WordModel[]) {
-		this.words = allWords;
+		console.log('this.words in set workds', this.words);
+		this.words = allWords[this.languageInUse];
 	}
 	
 	get getWords() {
-		return this.words.slice();
+		console.log('getting ',this.languageInUse,' words', 	this.words);
+		return this.words;
 	}
 
 	set allWords(words: any) {

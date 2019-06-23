@@ -92,7 +92,7 @@ export class FirebaseService {
 	
 	// todo remove hardcoded values
 	saveGames(seasonId:number = -1, episodeId: number = -1, grid: any) {
-		console.log('grid', grid);
+		console.log('saving service, the grid', grid);
 		console.log('url', `https://word-search-933f0.firebaseio.com/seasons/${seasonId}/episodes/${episodeId}/grid.json`);
 		return this.http.put(`https://word-search-933f0.firebaseio.com/seasons/${seasonId}/episodes/${episodeId}/grid.json`, grid);
 	}

@@ -90,9 +90,12 @@ export class ToolsComponent implements OnInit, OnDestroy {
   }
 
   onChangeLanguage(newLang: string) {
+    this.onSaveGrid();
     this.mainLang = newLang;
     this.secondLang = this.langSwitch[newLang];
     this.gameSrv.setActiveGrid(newLang);
+    this.wordSrv.removeSelected();
+    this.selectedWordIdx = -1;
   }
 
   onSaveGrid() {
