@@ -63,7 +63,7 @@ export class GameService {
 		// TODO need to clean up the words
 	}
 
-  private generateGameGrid() {
+  generateGameGrid() {
 		let blankGrid = [];
     for (let i=0 ; i<this.rows ; i++ ) {
       blankGrid.push([]);

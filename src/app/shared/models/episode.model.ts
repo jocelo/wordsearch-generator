@@ -12,6 +12,9 @@ export class EpisodeModel {
 			en: WordModel[],
 			es: WordModel[]
 		},
-		private grid: {}
+		private grid: {
+			en: [],
+			es: []
+		}
 	) {}
 }

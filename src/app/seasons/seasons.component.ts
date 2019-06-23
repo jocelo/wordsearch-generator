@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { NotificationsService } from '../shared/services/notifications.service';
 import { WordModel } from '../shared/models/word.model';
 import { WordService } from '../shared/services/word.service';
+import { GameService } from '../shared/services/game.service';
 
 @Component({
   selector: 'app-seasons',
@@ -43,6 +44,7 @@ export class SeasonsComponent implements OnInit, OnDestroy {
 
   constructor(
     private backendSrv: FirebaseService,
+    private gameSrv: GameService,
     private wordSrv: WordService,
     private router: Router ) { }
 
@@ -211,8 +213,12 @@ export class SeasonsComponent implements OnInit, OnDestroy {
       gameForm.value.epiEs,
       'normal',
       {'en': [], 'es': []},
-      {'en': [], 'es': []}
+      {'en': this.gameSrv.generateGameGrid(), 'es': this.gameSrv.generateGameGrid()}
     ));
+
+    console.log('this the new one???');
+    console.log(this.activeSeason['episodes']);
+    console.log('all details:', this.seasons);
 
     this.backendSrv.saveGame(this.seasons)
       .subscribe((response: Response)=>{
