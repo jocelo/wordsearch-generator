@@ -6,14 +6,14 @@
     </div>
     <div class="col-md-12">
       <h4>Game Selected:</h4>
-      <p *ngIf="season">
-        <strong>Season</strong> ( {{season.title}} )
+      <p>
+        <strong>Season</strong> ( {{groupName}} )
       </p>
-      <p *ngIf="episode">
-        <strong>Episode</strong> ( {{episode.title}} )
+      <p>
+        <strong>Episode</strong> ( {{categoryName}} )
       </p>
-      <p *ngIf="episode && episode.words">
-        <strong>Words</strong> ( {{episode.words.length}} )
+      <p>
+        <strong>Words</strong> ( {{wordsLen}} )
       </p>
       <p>
         Language: 

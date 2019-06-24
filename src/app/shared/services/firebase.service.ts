@@ -73,6 +73,10 @@ export class FirebaseService {
 		return this.http.get('https://word-search-933f0.firebaseio.com/seasons.json');
 	}
 
+	getSeason(seasonId: number) {
+		return this.http.get(`https://word-search-933f0.firebaseio.com/seasons/${seasonId}.json`);
+	}
+
 	getEpisode(seasonId: number, episodeId: number) {
 		return this.http.get(`https://word-search-933f0.firebaseio.com/seasons/${seasonId}/episodes/${episodeId}.json`);
 	}

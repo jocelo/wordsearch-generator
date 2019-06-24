@@ -247,6 +247,10 @@ export class SeasonsComponent implements OnInit, OnDestroy {
       );
   }
 
+  onDeleteEpisode() {
+
+  }
+
   /*
   * Words
   */
@@ -313,6 +317,10 @@ export class SeasonsComponent implements OnInit, OnDestroy {
         wordForm.reset();
         this.wordInput.nativeElement.focus();
       });
+  }
+
+  onDeleteWord() {
+    
   }
 
   onCancel() {

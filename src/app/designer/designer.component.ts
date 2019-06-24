@@ -14,6 +14,9 @@ import { Observable, Subscription } from 'rxjs';
 export class DesignerComponent implements OnInit, OnDestroy {
   seasonId: number = -1;
   episodeId: number = -1;
+  episode: string = '';
+  season: string = '';
+  wordsLen: number;
   languageKey: string = 'en';
   gameSavedObs: Subscription;
 
@@ -28,14 +31,17 @@ export class DesignerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.backend.getEpisode(this.seasonId, this.episodeId)
+    this.backend.getSeason(this.seasonId)
       .subscribe(
         (response)=>{
           const data = response.json();
-          this.wordService.allWords = data.words;
-          this.gameService.setGrids(data.grid);
+          this.wordService.allWords = data.episodes[this.episodeId].words;
+          this.gameService.setGrids(data.episodes[this.episodeId].grid);
           this.gameService.seasonId = this.seasonId;
           this.gameService.episodeId = this.episodeId;
+          this.season = data.en;
+          this.episode = data.episodes[this.episodeId].en;
+          this.wordsLen = data.episodes[this.episodeId].words.length;
         }
       )
 

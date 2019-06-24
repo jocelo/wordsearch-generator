@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, Input } from '@angular/core';
 import { WordService } from '../shared/services/word.service';
 import { ToolsService } from '../shared/services/tools.service';
 import { NotificationsService } from '../shared/services/notifications.service';
@@ -16,6 +16,10 @@ import { GameService } from '../shared/services/game.service';
 })
 export class ToolsComponent implements OnInit, OnDestroy {
   words: WordModel[] = [];
+
+  @Input() groupName :string;
+  @Input() categoryName :string;
+  @Input() wordsLen: number;
 
   //@ViewChild('newWord') newWord: ElementRef;
   //@ViewChild('gameName') gameName: ElementRef;
